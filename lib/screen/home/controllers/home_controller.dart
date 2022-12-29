@@ -133,9 +133,27 @@ class HomeController extends GetxController
   }
 
   addreactions({required int pos, required String emojei}) {
+    int itempos=0;
+
+    bool isinlist=false;
     Reactions reactions =
         Reactions(defaultEmoji: emojei, selected: 1, total: 1);
-    newsFeedsList[pos].reactions!.add(reactions);
+    for(int i=0;i<newsFeedsList[pos].reactions!.length;i++){
+
+
+      if(newsFeedsList[pos].reactions![i].defaultEmoji==emojei){
+        isinlist=true;
+        itempos=i;
+        print(itempos);
+      }
+    }
+   if(isinlist){
+     newsFeedsList[pos].reactions![itempos].total=newsFeedsList[pos].reactions![itempos].total!+1;
+     newsFeedsList[pos].reactions![itempos].selected=1;
+   }else{
+     newsFeedsList[pos].reactions!.add(reactions);
+   }
+
     update();
   }
 
@@ -370,7 +388,7 @@ class HomeController extends GetxController
                                     filter: AllEmojiToView
                                         .allgroupEmoji[botomshhetemojeindex]);
 
-                                // logic.updatemojiFilter(filter: AllEmojiToView.allgroupEmoji[pos]);
+
                               },
                               child: Container(
                                   decoration: BoxDecoration(
@@ -426,6 +444,7 @@ class HomeController extends GetxController
                             itemBuilder: (BuildContext context, int index) {
                               return GestureDetector(
                                 onTap: () {
+
                                   addreactions(
                                       emojei: AllEmojiToView
                                           .groupEmoji[AllEmojiToView
