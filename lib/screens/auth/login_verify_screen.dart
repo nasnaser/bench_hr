@@ -1,14 +1,17 @@
-import 'package:bench_hr/const/app_color.dart';
-import 'package:bench_hr/const/styles.dart';
-import 'package:bench_hr/screen/auth/controllers/login_controller.dart';
-import 'package:bench_hr/screen/shared_widget/custom_button.dart';
+
+import 'package:bench_hr/constants/app_color.dart';
+import 'package:bench_hr/constants/styles.dart';
+import 'package:bench_hr/screens/auth/controllers/login_controller.dart';
+import 'package:bench_hr/screens/shared_widget/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 class LogInVerifyScreen extends GetView<LogInController> {
+
   @override
   Widget build(BuildContext context) {
+    controller.otpNumber= TextEditingController();
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
@@ -36,7 +39,7 @@ class LogInVerifyScreen extends GetView<LogInController> {
               SizedBox(
                 height: 20,
               ),
-              GetBuilder<LogInController>(builder: (logic) {
+              GetBuilder<LogInController>(autoRemove: false,builder: (logic) {
                 return Expanded(
                     child: Container(
                       width: double.infinity,

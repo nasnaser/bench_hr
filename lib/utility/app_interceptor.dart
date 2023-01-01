@@ -13,7 +13,7 @@ class AppInterCepter extends di.Interceptor{
   @override
   void onRequest(di.RequestOptions options,di. RequestInterceptorHandler handler) {
 options.headers[APIApp.APIKEY]=APIApp.APIKEYVal;
-options.headers[APIApp.LANG]=SecureStorage.readSecureData(SecureStorage.lang)??"en";
+options.headers[APIApp.LANG]=SecureStorage.readSecureData(SecureStorage.lang)??"ar";
 options.headers[ "authorization"]=  "Bearer ${SecureStorage.readToken()}";
 options.headers[ "device-key"]="mobile";
 options.headers[ "company"]= SecureStorage.readCompany()??"";

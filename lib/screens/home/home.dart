@@ -1,9 +1,8 @@
 import 'dart:convert';
 
-import 'package:bench_hr/const/app_color.dart';
-import 'package:bench_hr/network/json_model/logIn_verify_model.dart';
-import 'package:bench_hr/screen/home/controllers/home_controller.dart';
-import 'package:bench_hr/screen/shared_widget/custom_button.dart';
+
+import 'package:bench_hr/constants/app_color.dart';
+import 'package:bench_hr/screens/home/controllers/home_controller.dart';
 import 'package:bench_hr/utility/storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

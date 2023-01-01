@@ -1,6 +1,8 @@
-import 'package:bench_hr/const/app_color.dart';
-import 'package:bench_hr/const/styles.dart';
-import 'package:bench_hr/screen/introduction_screen/intro_controller/introduction_controller.dart';
+
+import 'package:bench_hr/constants/app_color.dart';
+import 'package:bench_hr/constants/styles.dart';
+import 'package:bench_hr/screens/introduction_screen/intro_controller/introduction_controller.dart';
+
 import 'package:bench_hr/utility/conest_image.dart';
 
 import 'package:flutter/cupertino.dart';

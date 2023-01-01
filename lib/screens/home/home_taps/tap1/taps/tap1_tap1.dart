@@ -1,6 +1,8 @@
-import 'package:bench_hr/const/app_color.dart';
+
+import 'package:bench_hr/constants/app_color.dart';
 import 'package:bench_hr/network/json_model/emoji_json_model.dart';
-import 'package:bench_hr/screen/home/controllers/home_controller.dart';
+
+import 'package:bench_hr/screens/home/controllers/home_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -50,7 +52,7 @@ class Tap1Tap1 extends StatelessWidget {
                                   ),
                                   Spacer(),
                                   Text(
-                                      "${logic.newsFeedsList[pos].publishedAt}"),
+                                      "${logic.newsFeedsList[pos].publishedAt?.substring(0,10)}"),
                                   Icon(Icons.more_vert)
                                 ],
                               ),

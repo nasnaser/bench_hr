@@ -1,11 +1,12 @@
-import 'package:bench_hr/const/styles.dart';
-import 'package:bench_hr/screen/auth/controllers/login_controller.dart';
-import 'package:bench_hr/screen/shared_widget/custom_button.dart';
+
+import 'package:bench_hr/constants/app_color.dart';
+import 'package:bench_hr/constants/styles.dart';
+import 'package:bench_hr/screens/auth/controllers/login_controller.dart';
+import 'package:bench_hr/screens/shared_widget/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
-import '../../const/app_color.dart';
 
 import '../../network/json_model/emoji_json_model.dart';
 import '../../utility/conest_image.dart';

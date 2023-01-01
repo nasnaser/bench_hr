@@ -1,12 +1,13 @@
-import 'package:bench_hr/screen/auth/binding/login_binding.dart';
-import 'package:bench_hr/screen/auth/login_screen.dart';
-import 'package:bench_hr/screen/auth/login_verify_screen.dart';
-import 'package:bench_hr/screen/auth/middleware/auth_middleware.dart';
-import 'package:bench_hr/screen/home/binding/home_binding.dart';
-import 'package:bench_hr/screen/home/home.dart';
-import 'package:bench_hr/screen/introduction_screen/binding/intro_binding.dart';
-import 'package:bench_hr/screen/introduction_screen/intro_screen.dart';
-import 'package:bench_hr/screen/introduction_screen/middleware/Intro_middleware.dart';
+
+import 'package:bench_hr/screens/auth/binding/login_binding.dart';
+import 'package:bench_hr/screens/auth/login_screen.dart';
+import 'package:bench_hr/screens/auth/login_verify_screen.dart';
+import 'package:bench_hr/screens/auth/middleware/auth_middleware.dart';
+import 'package:bench_hr/screens/home/binding/home_binding.dart';
+import 'package:bench_hr/screens/home/home.dart';
+import 'package:bench_hr/screens/introduction_screen/binding/intro_binding.dart';
+import 'package:bench_hr/screens/introduction_screen/intro_screen.dart';
+import 'package:bench_hr/screens/introduction_screen/middleware/Intro_middleware.dart';
 import 'package:bench_hr/translation/trans.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

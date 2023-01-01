@@ -1,4 +1,5 @@
-import 'package:bench_hr/const/app_color.dart';
+
+import 'package:bench_hr/constants/app_color.dart';
 import 'package:bench_hr/network/apis/conutries_list_api.dart';
 import 'package:bench_hr/network/apis/login_api.dart';
 import 'package:bench_hr/network/apis/login_verify_api.dart';
@@ -13,7 +14,7 @@ import 'package:get/get.dart';
 
 class LogInController extends GetxController {
   TextEditingController phoneNumber = TextEditingController();
-  TextEditingController otpNumber = TextEditingController();
+  TextEditingController? otpNumber ;
   ConutriesListAPI conutriesListAPI = ConutriesListAPI();
   ScrollController scrollController = ScrollController();
   List<ConutriesList> conutriesList = [];
@@ -242,7 +243,7 @@ TimeForResendOTP(){
 
     Map<String, dynamic> data = {
       "phone": phoneNumber.text,
-      "otp":  otpNumber.text,
+      "otp":  otpNumber?.text??"",
       "phone_country_id":phone_country_id
     };
     loginVerifyApi.post(data).then((value) {

@@ -1,4 +1,5 @@
-import 'package:bench_hr/const/app_color.dart';
+
+import 'package:bench_hr/constants/app_color.dart';
 import 'package:bench_hr/network/apis/delete_comments_api.dart';
 import 'package:bench_hr/network/apis/delete_emoje_api.dart';
 import 'package:bench_hr/network/apis/news_feeds_comments_api.dart';
@@ -9,8 +10,9 @@ import 'package:bench_hr/network/json_model/emoji_json_model.dart';
 import 'package:bench_hr/network/json_model/logIn_verify_model.dart';
 import 'package:bench_hr/network/json_model/news_feeds_comments_model.dart';
 import 'package:bench_hr/network/json_model/newsfeeds_model.dart';
-import 'package:bench_hr/screen/home/home_taps/tap1/tap1_screen.dart';
-import 'package:bench_hr/screen/home/home_taps/tap1/taps/tap1_tap1.dart';
+
+import 'package:bench_hr/screens/home/home_taps/tap1/tap1_screen.dart';
+import 'package:bench_hr/screens/home/home_taps/tap1/taps/tap1_tap1.dart';
 import 'package:bench_hr/utility/nested_open_page.dart';
 import 'package:bench_hr/utility/storage.dart';
 import 'package:flutter/material.dart';

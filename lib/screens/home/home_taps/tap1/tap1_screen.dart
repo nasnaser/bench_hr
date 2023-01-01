@@ -1,8 +1,9 @@
-import 'package:bench_hr/const/app_color.dart';
-import 'package:bench_hr/const/styles.dart';
-import 'package:bench_hr/screen/home/controllers/home_controller.dart';
-import 'package:bench_hr/screen/home/home_taps/tap1/taps/tap1_tap1.dart';
-import 'package:bench_hr/screen/shared_widget/custom_button.dart';
+
+import 'package:bench_hr/constants/app_color.dart';
+import 'package:bench_hr/constants/styles.dart';
+import 'package:bench_hr/screens/home/controllers/home_controller.dart';
+import 'package:bench_hr/screens/home/home_taps/tap1/taps/tap1_tap1.dart';
+import 'package:bench_hr/screens/shared_widget/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
