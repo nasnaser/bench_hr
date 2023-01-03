@@ -24,5 +24,6 @@ class APIApp {
   static const String eventsUrl =baseUrl+"events?date=";
   static const String employeesUrl =baseUrl+"employees";
   static const String personalUrl =employeesUrl+"/personal?uuid=";
-
+  static const String eventTypesUrl =baseUrl+"event-types";
+  static const String AlleventsUrl =baseUrl+"events";
 }

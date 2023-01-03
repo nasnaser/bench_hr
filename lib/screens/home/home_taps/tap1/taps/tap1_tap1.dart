@@ -107,13 +107,10 @@ class Tap1Tap1 extends StatelessWidget {
                             logic.pdfBotomSheet(context: context, pdfUrl: e.attachment!);
                             //Get.to(()=>PdfVierr());
                           },
-                            child: Container( color: Colors.teal,height: 200,width:  MediaQuery.of(context).size.width,child:
+                            child: Container( color: Colors.teal,height: 50,width: 50,child:
 
 
-                            SfPdfViewer.network(
-                              e.attachment!,
-
-                            ),),
+                           SvgPicture.asset("assets/image/pdf_file_icon.svg"),),
                           );
                            }else{
                              return                            Image.network(

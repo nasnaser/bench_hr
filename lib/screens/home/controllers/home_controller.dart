@@ -1,17 +1,23 @@
 import 'package:bench_hr/constants/app_color.dart';
+import 'package:bench_hr/network/apis/all_events_api.dart';
 import 'package:bench_hr/network/apis/delete_comments_api.dart';
 import 'package:bench_hr/network/apis/delete_emoje_api.dart';
+import 'package:bench_hr/network/apis/event_types_api.dart';
 import 'package:bench_hr/network/apis/news_feeds_comments_api.dart';
 import 'package:bench_hr/network/apis/news_feeds_list_api.dart';
 import 'package:bench_hr/network/apis/reactions_create_api.dart';
 import 'package:bench_hr/network/apis/update_comments_api.dart';
+import 'package:bench_hr/network/json_model/all_events_model.dart';
 import 'package:bench_hr/network/json_model/emoji_json_model.dart';
+import 'package:bench_hr/network/json_model/event-types_model.dart';
+import 'package:bench_hr/network/json_model/events_model.dart';
 import 'package:bench_hr/network/json_model/logIn_verify_model.dart';
 import 'package:bench_hr/network/json_model/news_feeds_comments_model.dart';
 import 'package:bench_hr/network/json_model/newsfeeds_model.dart';
 
 import 'package:bench_hr/screens/home/home_taps/tap1/tap1_screen.dart';
 import 'package:bench_hr/screens/home/home_taps/tap1/taps/tap1_tap1.dart';
+import 'package:bench_hr/utility/date_Util.dart';
 import 'package:bench_hr/utility/nested_open_page.dart';
 import 'package:bench_hr/utility/storage.dart';
 import 'package:carousel_slider/carousel_controller.dart';
@@ -21,6 +27,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
+import 'package:table_calendar/table_calendar.dart';
 
 class HomeController extends GetxController
     with GetSingleTickerProviderStateMixin {
@@ -63,6 +70,8 @@ class HomeController extends GetxController
         color: Colors.amberAccent),
   ];
 
+  DateTime? selectedDay;
+
   @override
   void onInit() {
     super.onInit();
@@ -97,10 +106,12 @@ class HomeController extends GetxController
       final indices = itemPositionsListener.itemPositions.value.map((e) => e);
       print(indices.first.index);
       if (botomshhetemojeindex != indices.first.index) {
-        botomshhetemojeindex = indices.first.index+1;
+        botomshhetemojeindex = indices.first.index + 1;
         update();
       }
     });
+    getEventTypes();
+    getAllevents();
   }
 
   List<NewsFeedsList> newsFeedsList = [];
@@ -410,48 +421,50 @@ class HomeController extends GetxController
                       scrollDirection: Axis.horizontal,
                       itemCount: AllEmojiToView.allgroupEmojiwithImage.length,
                       itemBuilder: (context, pos) {
-                          if (AllEmojiToView.allgroupEmojiwithImage[pos].name ==
-                             "1") {
+                        if (AllEmojiToView.allgroupEmojiwithImage[pos].name ==
+                            "1") {
                           return SizedBox();
                         } else {
-                        print("0000000000000000000000000000000000000000");
-                        return Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: GestureDetector(
-                            onTap: () {
-                              itemScrollController.scrollTo(
-                                  index: pos,
-                                  duration: Duration(milliseconds: 20));
+                          print("0000000000000000000000000000000000000000");
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: GestureDetector(
+                              onTap: () {
+                                itemScrollController.scrollTo(
+                                    index: pos,
+                                    duration: Duration(milliseconds: 20));
 
-                              botomshhetemojeindex = pos;
+                                botomshhetemojeindex = pos;
 
-                              logic.updatemojiFilter(
-                                  filter: AllEmojiToView
-                                      .allgroupEmoji[botomshhetemojeindex]);
-                            },
-                            child: Container(height: 20,width: 20,
-                                decoration: BoxDecoration(
-                                    color: pos == botomshhetemojeindex
-                                        ? Colors.teal
-                                        : Colors.white,
-                                    borderRadius: BorderRadius.circular(5)),
-                                child: SvgPicture.asset(
-                                  fit: BoxFit.fill,
-                                  AllEmojiToView
-                                      .allgroupEmojiwithImage[pos].image,
+                                logic.updatemojiFilter(
+                                    filter: AllEmojiToView
+                                        .allgroupEmoji[botomshhetemojeindex]);
+                              },
+                              child: Container(
                                   height: 20,
                                   width: 20,
-                                  semanticsLabel: AllEmojiToView
-                                      .allgroupEmojiwithImage[pos].name,
-                                  color:Colors.black,
-                                )
-                                // Text(AllEmojiToView.allgroupEmoji[pos]
-                                // .replaceAll("-", " "))
+                                  decoration: BoxDecoration(
+                                      color: pos == botomshhetemojeindex
+                                          ? Colors.teal
+                                          : Colors.white,
+                                      borderRadius: BorderRadius.circular(5)),
+                                  child: SvgPicture.asset(
+                                    fit: BoxFit.fill,
+                                    AllEmojiToView
+                                        .allgroupEmojiwithImage[pos].image,
+                                    height: 20,
+                                    width: 20,
+                                    semanticsLabel: AllEmojiToView
+                                        .allgroupEmojiwithImage[pos].name,
+                                    color: Colors.black,
+                                  )
+                                  // Text(AllEmojiToView.allgroupEmoji[pos]
+                                  // .replaceAll("-", " "))
 
-                                ),
-                          ),
-                        );
-                       }
+                                  ),
+                            ),
+                          );
+                        }
                       }),
                 ),
               ),
@@ -472,7 +485,7 @@ class HomeController extends GetxController
                                 right: 21.0, left: 21, bottom: 15, top: 15),
                             child: Text(
                                 AllEmojiToView.getEmojiName(
-                                  AllEmojiToView.allgroupEmoji[pos+1 ],
+                                  AllEmojiToView.allgroupEmoji[pos + 1],
                                 ),
                                 style: TextStyle(fontWeight: FontWeight.w600)),
                           );
@@ -566,7 +579,7 @@ class HomeController extends GetxController
                     topLeft: Radius.circular(30),
                     topRight: Radius.circular(30))),
             child: Padding(
-              padding: const EdgeInsets.only(top: 20,left: 8,right: 8),
+              padding: const EdgeInsets.only(top: 20, left: 8, right: 8),
               child: SfPdfViewer.network(
                 pdfUrl,
                 enableTextSelection: true,
@@ -581,5 +594,186 @@ class HomeController extends GetxController
         );
       }),
     );
+  }
+
+  int steperIndex = 0;
+
+  updatesteperIndex(int v) {
+    steperIndex = v;
+    update();
+  }
+
+  DateTime? focusedDay;
+  Map<DateTime, List<EventsList>> selectedEvents = {};
+
+  List<EventsList> getdayEvent(DateTime dateTime) {
+    return selectedEvents[dateTime] ?? [];
+  }
+
+  updateselectedDay(selectedDay, focusedDay) {
+    this.selectedDay = selectedDay;
+    this.focusedDay = focusedDay;
+
+    update();
+  }
+
+  DateTimeSheet({required context}) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      isDismissible: true,
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(30))),
+      builder: (context) => GetBuilder<HomeController>(builder: (logic) {
+        return DraggableScrollableSheet(
+          initialChildSize: 0.8,
+          minChildSize: 0.2,
+          maxChildSize: 0.8,
+          expand: false,
+          builder: (_, controller) => Container(
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(30),
+                    topRight: Radius.circular(30))),
+            child: Padding(
+              padding: const EdgeInsets.only(top: 20, left: 8, right: 8),
+              child: TableCalendar(
+                eventLoader: logic.getdayEvent,
+                calendarBuilders: CalendarBuilders(
+                    todayBuilder: (context, _datetime, focusedDay) {
+                  return Container(
+                    decoration: BoxDecoration(
+                        color: focusedDay == _datetime
+                            ? ColorApp.PrimaryColor
+                            : Theme.of(context).scaffoldBackgroundColor,
+                        borderRadius: BorderRadius.circular(4.0)),
+                    margin: EdgeInsets.symmetric(vertical: 0, horizontal: 0.0),
+                    child: focusedDay == _datetime
+                        ? Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Text(
+                                  DateTableCalendarUtils
+                                      .weekdays[_datetime.weekday - 1],
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                                Text(
+                                  _datetime.day.toString(),
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 15),
+                                ),
+                              ],
+                            ),
+                          )
+                        : Center(
+                            child: Text(
+                              _datetime.day.toString(),
+                              style:
+                                  TextStyle(color: Colors.black, fontSize: 15),
+                            ),
+                          ),
+                  );
+                }, selectedBuilder: (context, _datetime, focusedDay) {
+                  return Container(
+                    decoration: BoxDecoration(
+                        color: ColorApp.PrimaryColor,
+                        borderRadius: BorderRadius.circular(4.0)),
+                    margin: EdgeInsets.symmetric(vertical: 0, horizontal: 0.0),
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Text(
+                            DateTableCalendarUtils
+                                .weekdays[_datetime.weekday - 1],
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          Text(
+                            _datetime.day.toString(),
+                            style: TextStyle(color: Colors.white, fontSize: 15),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                }, markerBuilder: (context, datetime, events) {
+
+                  int i = selectedEvents[DateTime.parse(
+                              datetime.toString().substring(0, 10))]
+                          ?.length ??
+                      0;
+                  return i == 0
+                      ? SizedBox()
+                      : Container(
+                          height: 20,
+                          width: 20,
+                          color: Colors.red,
+                          child: Center(
+                            child: Text(
+                                "${selectedEvents[DateTime.parse(datetime.toString().substring(0, 10))]?.length}"),
+                          ),
+                        );
+                }),
+                selectedDayPredicate: (day) {
+                  return isSameDay(logic.selectedDay, day);
+                },
+                onDaySelected: (selectedDay, focusedDay) {
+                  print(selectedEvents);
+                  logic.updateselectedDay(selectedDay, focusedDay);
+                },
+                calendarFormat: CalendarFormat.month,
+                firstDay: DateTime.utc(2010, 10, 16),
+                headerStyle: HeaderStyle(
+                    formatButtonVisible: false,
+                    titleCentered: true,
+                    formatButtonShowsNext: false,
+                    titleTextStyle: TextStyle(
+                      fontSize: 12,
+                    )),
+                daysOfWeekVisible: true,
+                lastDay: DateTime.utc(2030, 3, 14),
+                daysOfWeekStyle: DaysOfWeekStyle(
+                    decoration: BoxDecoration(color: ColorApp.PrimaryColor),
+                    weekdayStyle: TextStyle(
+                      fontSize: 12,
+                    )),
+                focusedDay: logic.selectedDay == null
+                    ? DateTime.now()
+                    : logic.selectedDay!,
+              ),
+            ),
+          ),
+        );
+      }),
+    );
+  }
+
+  EventTypesModel? eventTypesModel;
+
+  getEventTypes() {
+    EventTypesApi eventTypesApi = EventTypesApi();
+
+    eventTypesApi.getData().then((value) {
+      eventTypesModel = value as EventTypesModel;
+      update();
+    });
+  }
+
+  AllEventsModel? allEventsModel;
+
+  getAllevents() {
+    AlleventsApi alleventsApi = AlleventsApi();
+
+    alleventsApi.getData().then((value) {
+      allEventsModel = value as AllEventsModel;
+
+      for (int i = 0; i < allEventsModel!.data!.list!.length; i++) {
+        selectedEvents[
+                DateTime.parse(allEventsModel!.data!.list![i]!.startDate!)] =
+            allEventsModel!.data!.list ?? [];
+      }
+      update();
+    });
   }
 }
