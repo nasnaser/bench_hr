@@ -22,7 +22,7 @@ class Events extends GetView<HomeController> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.only(bottom: 8.0,top: 8,left: 25,right: 25),
                 child: Row(
                   children: [
                     Column(
@@ -34,12 +34,18 @@ class Events extends GetView<HomeController> {
                           style: TextStyle(
                               fontWeight: FontWeight.w500, fontSize: 16),
                         ),
-                        Text(
-                          DateTime.now().toString().substring(0, 10),
-                          style: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 14,
-                              color: Colors.grey),
+                        Row(
+                          children: [
+
+                            Text(
+                                "${DateFormat('yy').format(controller.selectedDay )}",
+
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 14,
+                                  color: Colors.grey),maxLines: 1,
+                            ),  Text(" ${DateFormat('MMMM').format(controller.selectedDay )}"),
+                            Text(" ${DateFormat('dd').format(controller.selectedDay )}"),   ],
                         ),
                       ],
                     ),
@@ -56,11 +62,20 @@ class Events extends GetView<HomeController> {
                 height: 150,
                 child: ListView.builder(
                     scrollDirection: Axis.horizontal,
-                    itemCount: 3,
+                    itemCount:controller
+                        .getdayEvent(
+                        DateTime.now()  )
+                        ?.length,
                     itemBuilder: (context, pos) {
                       return EventsTodayItems(
-                        title: "إنضمام عبد الله محمد ",
-                        des: "إنضمام عبد الله محمد ",
+                        title: controller
+                            .getdayEvent(
+                            DateTime.now()  )
+                            ?[pos].name??"",
+                        des:  controller
+                            .getdayEvent(
+                            DateTime.now()  )
+                        ?[pos].description??"",
                         back: "assets/image/event/event1.png",
                         likes: [],
                         pic: "assets/image/event/Icon.png",
@@ -68,7 +83,7 @@ class Events extends GetView<HomeController> {
                     }),
               ),
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.only(bottom: 8.0,top: 8,left: 25,right: 25),
                 child: Text(
                   "الأقسـام",
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
@@ -76,8 +91,7 @@ class Events extends GetView<HomeController> {
               ),
               GetBuilder<HomeController>(builder: (logic) {
                 return Padding(
-                  padding: const EdgeInsets.only(
-                      right: 8.0, left: 8, top: 0, bottom: 4),
+                  padding: const EdgeInsets.only(bottom: 8.0,top: 8,right: 25),
                   child: SizedBox(
                       height: 30,
                       child: logic.eventTypesModel == null
@@ -87,87 +101,124 @@ class Events extends GetView<HomeController> {
                               itemCount:
                                   logic.eventTypesModel?.data?.list?.length,
                               itemBuilder: (context, pos) {
-                                return PartMantItem(
-                                  backcolor: HexColor(logic.eventTypesModel!
-                                          .data!.list![pos].color!)
-                                      .withOpacity(.1),
-                                  borderColor: HexColor(logic.eventTypesModel!
-                                      .data!.list![pos].color!),
-                                  titel: logic
-                                      .eventTypesModel!.data!.list![pos].name!,
+                                return GestureDetector(onTap: (){
+                                  logic.updateevent_typeandisFilter(type: logic.eventTypesModel!
+                                      .data!.list![pos].id!, filter: true);
+                                },
+                                  child: PartMantItem(
+                                    backcolor: HexColor(logic.eventTypesModel!
+                                            .data!.list![pos].color!)
+                                        .withOpacity(.1),
+                                    borderColor: HexColor(logic.eventTypesModel!
+                                        .data!.list![pos].color!),
+                                    titel: logic
+                                        .eventTypesModel!.data!.list![pos].name!,
+                                  ),
                                 );
                               })),
                 );
               }),
               Divider(
                   color: ColorApp.grayDividerColor2, height: 1, thickness: 1),
-              Column(
-                children: List.generate(10, (index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Colors.grey.withOpacity(.3),
-                          ),
-                          width: 50,
-                          height: 50,
-                          child: Center(
-                              child: Column(
-                            children: [
-                              Text(
-                                "${DateFormat('dd').format(controller.selectedDay ?? DateTime.now())}",
-                                maxLines: 3,
-                                style: TextStyle(
-                                    fontSize: 10, fontWeight: FontWeight.bold),
-                                textAlign: TextAlign.center,
-                              ),
-                              Text(
-                                "${DateFormat('MMMM').format(controller.selectedDay ?? DateTime.now())}\n${DateFormat('yy').format(controller.selectedDay ?? DateTime.now())}",
-                                maxLines: 3,
-                                style: TextStyle(fontSize: 10),
-                                textAlign: TextAlign.center,
-                              ),
-                            ],
-                          )),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 8.0,top: 8,left: 25,right: 25),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Colors.grey.withOpacity(.3),
                         ),
-                        SizedBox(
-                          width: 10,
-                        ),
-
-
-                        Container(height: 200,width: 300,
-                          child: GetBuilder<HomeController>(builder: (logic) {
-                            return ListView.builder(
-                                shrinkWrap: true,
-                                itemCount: logic
-                                    .getdayEvent(logic.selectedDay??DateTime.now()
-                            )
-                                    ?.length,
-                                itemBuilder: (context, pos) {
-                                  return  DateEventItem(
-                                    event: logic
-                                        .getdayEvent(logic.selectedDay??DateTime.now()
-                                    )
-                                        ?[pos].description??"",
-                                    image:
-                                    "https://tse4.mm.bing.net/th?id=OIP.HdETgqkYpSTZhRHQcDetIgHaFS&pid=Api&P=0",
-                                    name: logic
-                                        .getdayEvent(logic.selectedDay??DateTime.now()
-                                    )
-                                    [pos].name??"",
-                                  );
-                                });
-                          }),
-                        ),
-
-                      ],
+                        width: 50,
+                        height: 50,
+                        child: Center(
+                            child: Column(
+                          children: [
+                            Text(
+                              "${DateFormat('dd').format(controller.selectedDay )}",
+                              maxLines: 3,
+                              style: TextStyle(
+                                  fontSize: 10, fontWeight: FontWeight.bold),
+                              textAlign: TextAlign.center,
+                            ),
+                            Text(
+                              "${DateFormat('MMMM').format(controller.selectedDay ?? DateTime.now())}\n${DateFormat('yy').format(controller.selectedDay ?? DateTime.now())}",
+                              maxLines: 3,
+                              style: TextStyle(fontSize: 10),
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
+                        )),
+                      ),
                     ),
-                  );
-                }),
+                    Expanded(
+                      flex: 5,
+                      child: GetBuilder<HomeController>(builder: (logic) {
+                        return ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: logic
+                                .getdayEvent(
+                                    logic.selectedDay  )
+                                ?.length,
+                            itemBuilder: (context, pos) {
+                              String des = "";
+                              List list = logic
+                                      .getdayEvent(logic.selectedDay ??
+                                          DateTime.now())?[pos]
+                                      ?.description
+                                      ?.split(" ") ??
+                                  [];
+                              // if(list.length>5){
+                              //   for(int i=0;i<5;){
+                              //     des=des+list[i];
+                              //   }
+                              //   }else{
+                              des = logic
+                                      .getdayEvent(logic.selectedDay ??
+                                          DateTime.now())?[pos]
+                                      ?.description ??
+                                  "";
+                              //   }
+
+                              if (logic.isFilter) {
+                                if (logic
+                                        .getdayEvent(logic.selectedDay)[pos]
+                                        .eventType!
+                                        .id ==
+                                    logic.event_type) {
+                                  return DateEventItem(
+                                    event: des,
+                                    image:
+                                        "https://tse4.mm.bing.net/th?id=OIP.HdETgqkYpSTZhRHQcDetIgHaFS&pid=Api&P=0",
+                                    name: logic
+                                            .getdayEvent(logic.selectedDay ??
+                                                DateTime.now())[pos]
+                                            .name ??
+                                        "",
+                                  );
+                                } else {
+                                  return SizedBox();
+                                }
+                              } else {
+                                return DateEventItem(
+                                  event: des,
+                                  image:
+                                      "https://tse4.mm.bing.net/th?id=OIP.HdETgqkYpSTZhRHQcDetIgHaFS&pid=Api&P=0",
+                                  name: logic
+                                          .getdayEvent(logic.selectedDay ??
+                                              DateTime.now())[pos]
+                                          .name ??
+                                      "",
+                                );
+                              }
+                            });
+                      }),
+                    ),
+                  ],
+                ),
               )
             ]),
       ),

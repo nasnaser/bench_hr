@@ -12,12 +12,12 @@ class DateEventItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Container(width: MediaQuery.of(context).size.width*.75,height: 70,
+      child: Container(height: 70,//width: MediaQuery.of(context).size.width*.75,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(15), color: HexColor("#F2F6F6")),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+          child: Row(crossAxisAlignment: CrossAxisAlignment.center,mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             Image.network(
               image,
               width: 100,
@@ -33,7 +33,7 @@ class DateEventItem extends StatelessWidget {
                   name,
                   style: TextStyle(fontWeight: FontWeight.w400, fontSize: 12,color: HexColor("#98A2B3")),
                 ),],
-            ),Spacer(),
+            ),
           Icon(Icons.more_horiz) ]),
         ),
       ),

@@ -42,21 +42,21 @@ class EventsTodayItems extends StatelessWidget {
                   style: TextStyle(fontSize: 12, fontWeight: FontWeight.w400,color: Colors.white))
             ]),
           ),
-          Positioned(
-              left: 20,
-              bottom: -5,
-              child: Container(
-                  height: 30,
-                  width: 30,
-                  decoration: BoxDecoration(
-                      shape: BoxShape.circle, color: Colors.white),
-                  child: Align(
-                    child: Image.asset(
-                      "assets/image/love.png",
-                      width: 20,
-                      height: 20,
-                    ),
-                  )))
+          // Positioned(
+          //     left: 20,
+          //     bottom: -5,
+          //     child: Container(
+          //         height: 30,
+          //         width: 30,
+          //         decoration: BoxDecoration(
+          //             shape: BoxShape.circle, color: Colors.white),
+          //         child: Align(
+          //           child: Image.asset(
+          //             "assets/image/love.png",
+          //             width: 20,
+          //             height: 20,
+          //           ),
+          //         )))
         ],
       ),
     );

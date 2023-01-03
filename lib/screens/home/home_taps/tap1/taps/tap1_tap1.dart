@@ -22,6 +22,7 @@ class Tap1Tap1 extends StatelessWidget {
               controller: logic.newsFeedsListscrollController,
               itemCount: logic.newsFeedsList.length,
               itemBuilder: (context, pos) {
+
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 8.0),
                   child: Container(
@@ -107,7 +108,7 @@ class Tap1Tap1 extends StatelessWidget {
                             logic.pdfBotomSheet(context: context, pdfUrl: e.attachment!);
                             //Get.to(()=>PdfVierr());
                           },
-                            child: Container( color: Colors.teal,height: 50,width: 50,child:
+                            child: Container(  height: 50,width: 50,child:
 
 
                            SvgPicture.asset("assets/image/pdf_file_icon.svg"),),
