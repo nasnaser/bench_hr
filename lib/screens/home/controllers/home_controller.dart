@@ -604,10 +604,14 @@ class HomeController extends GetxController
   }
 
   DateTime? focusedDay;
-  Map<DateTime, List<EventsList>> selectedEvents = {};
+  Map<String, List<EventsList>> selectedEvents = {};
 
   List<EventsList> getdayEvent(DateTime dateTime) {
-    return selectedEvents[dateTime] ?? [];
+    print("0"*50);
+    print(DateTime.parse(dateTime.toString().substring(0,10)));
+    print(selectedEvents[ dateTime.toString().substring(0,10)]);
+
+    return selectedEvents[dateTime.toString().substring(0,10)] ?? [];
   }
 
   updateselectedDay(selectedDay, focusedDay) {
@@ -698,9 +702,7 @@ class HomeController extends GetxController
                     ),
                   );
                 }, markerBuilder: (context, datetime, events) {
-
-                  int i = selectedEvents[DateTime.parse(
-                              datetime.toString().substring(0, 10))]
+                  int i = selectedEvents[ datetime.toString().substring(0, 10)]
                           ?.length ??
                       0;
                   return i == 0
@@ -711,7 +713,7 @@ class HomeController extends GetxController
                           color: Colors.red,
                           child: Center(
                             child: Text(
-                                "${selectedEvents[DateTime.parse(datetime.toString().substring(0, 10))]?.length}"),
+                                "${getdayEvent(DateTime.parse(datetime.toString().substring(0, 10))).length}"),
                           ),
                         );
                 }),
@@ -719,7 +721,6 @@ class HomeController extends GetxController
                   return isSameDay(logic.selectedDay, day);
                 },
                 onDaySelected: (selectedDay, focusedDay) {
-                  print(selectedEvents);
                   logic.updateselectedDay(selectedDay, focusedDay);
                 },
                 calendarFormat: CalendarFormat.month,
@@ -732,7 +733,7 @@ class HomeController extends GetxController
                       fontSize: 12,
                     )),
                 daysOfWeekVisible: true,
-                lastDay: DateTime.utc(2030, 3, 14),
+                lastDay: DateTime.utc(2050, 3, 14),
                 daysOfWeekStyle: DaysOfWeekStyle(
                     decoration: BoxDecoration(color: ColorApp.PrimaryColor),
                     weekdayStyle: TextStyle(
@@ -770,7 +771,7 @@ class HomeController extends GetxController
 
       for (int i = 0; i < allEventsModel!.data!.list!.length; i++) {
         selectedEvents[
-                DateTime.parse(allEventsModel!.data!.list![i]!.startDate!)] =
+                allEventsModel!.data!.list![i]!.startDate!] =
             allEventsModel!.data!.list ?? [];
       }
       update();

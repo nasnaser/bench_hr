@@ -8,6 +8,7 @@ import 'package:bench_hr/screens/home/home_taps/tap1/widgets/partmant_item.dart'
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class Events extends GetView<HomeController> {
   const Events({Key? key}) : super(key: key);
@@ -79,57 +80,23 @@ class Events extends GetView<HomeController> {
                       right: 8.0, left: 8, top: 0, bottom: 4),
                   child: SizedBox(
                       height: 30,
-                      child:logic.eventTypesModel==null?CircularProgressIndicator(): ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: logic.eventTypesModel?.data?.list?.length,
-                          itemBuilder: (context, pos) {
-                            return PartMantItem(
-                              backcolor: HexColor(logic
-                                      .eventTypesModel!.data!.list![pos].color!)
-                                  .withOpacity(.1),
-                              borderColor: HexColor(logic
-                                  .eventTypesModel!.data!.list![pos].color!),
-                              titel:
-                                  logic.eventTypesModel!.data!.list![pos].name!,
-                            );
-                          })),
-                  // child: SingleChildScrollView(
-                  //   scrollDirection: Axis.horizontal,
-                  //   child: Row(
-                  //     children: [
-                  //       PartMantItem(
-                  //         backcolor: HexColor("#015555").withOpacity(.1),
-                  //         borderColor: HexColor("#015555"),
-                  //         titel: "الكل",
-                  //       ),
-                  //       PartMantItem(
-                  //         backcolor: HexColor("#4285F4").withOpacity(.1),
-                  //         borderColor: HexColor("#4285F4"),
-                  //         titel: "الذكرى السنوية",
-                  //       ),
-                  //       PartMantItem(
-                  //         backcolor: HexColor("#4285F4").withOpacity(.1),
-                  //         borderColor: HexColor("#4285F4"),
-                  //         titel: "حفلة وداع",
-                  //       ),
-                  //       PartMantItem(
-                  //         backcolor: HexColor("#FECDCA").withOpacity(.1),
-                  //         borderColor: HexColor("#FECDCA"),
-                  //         titel: "عيد ميلاد",
-                  //       ),
-                  //       PartMantItem(
-                  //         backcolor: HexColor("#FDB022").withOpacity(.1),
-                  //         borderColor: HexColor("#FDB022"),
-                  //         titel: "موظف جديد",
-                  //       ),
-                  //       PartMantItem(
-                  //         backcolor: HexColor("#209000").withOpacity(.1),
-                  //         borderColor: HexColor("#209000"),
-                  //         titel: "الموظف المثالي",
-                  //       ),
-                  //     ],
-                  //   ),
-                  // ),
+                      child: logic.eventTypesModel == null
+                          ? CircularProgressIndicator()
+                          : ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount:
+                                  logic.eventTypesModel?.data?.list?.length,
+                              itemBuilder: (context, pos) {
+                                return PartMantItem(
+                                  backcolor: HexColor(logic.eventTypesModel!
+                                          .data!.list![pos].color!)
+                                      .withOpacity(.1),
+                                  borderColor: HexColor(logic.eventTypesModel!
+                                      .data!.list![pos].color!),
+                                  titel: logic
+                                      .eventTypesModel!.data!.list![pos].name!,
+                                );
+                              })),
                 );
               }),
               Divider(
@@ -144,27 +111,59 @@ class Events extends GetView<HomeController> {
                         Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
-                            color: Colors.grey,
+                            color: Colors.grey.withOpacity(.3),
                           ),
-                          width: 60,
-                          height: 60,
+                          width: 50,
+                          height: 50,
                           child: Center(
-                              child: Text(
-                                  DateTime.now().toString().substring(0, 10))),
+                              child: Column(
+                            children: [
+                              Text(
+                                "${DateFormat('dd').format(controller.selectedDay ?? DateTime.now())}",
+                                maxLines: 3,
+                                style: TextStyle(
+                                    fontSize: 10, fontWeight: FontWeight.bold),
+                                textAlign: TextAlign.center,
+                              ),
+                              Text(
+                                "${DateFormat('MMMM').format(controller.selectedDay ?? DateTime.now())}\n${DateFormat('yy').format(controller.selectedDay ?? DateTime.now())}",
+                                maxLines: 3,
+                                style: TextStyle(fontSize: 10),
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
+                          )),
                         ),
                         SizedBox(
                           width: 10,
                         ),
-                        Column(
-                          children: List.generate(index * 2, (indexx) {
-                            return DateEventItem(
-                              event: "الذكرى السنوية (5 سنوات)",
-                              image:
-                                  "https://tse4.mm.bing.net/th?id=OIP.HdETgqkYpSTZhRHQcDetIgHaFS&pid=Api&P=0",
-                              name: "عبد الله محمد ",
-                            );
+
+
+                        Container(height: 200,width: 300,
+                          child: GetBuilder<HomeController>(builder: (logic) {
+                            return ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: logic
+                                    .getdayEvent(logic.selectedDay??DateTime.now()
+                            )
+                                    ?.length,
+                                itemBuilder: (context, pos) {
+                                  return  DateEventItem(
+                                    event: logic
+                                        .getdayEvent(logic.selectedDay??DateTime.now()
+                                    )
+                                        ?[pos].description??"",
+                                    image:
+                                    "https://tse4.mm.bing.net/th?id=OIP.HdETgqkYpSTZhRHQcDetIgHaFS&pid=Api&P=0",
+                                    name: logic
+                                        .getdayEvent(logic.selectedDay??DateTime.now()
+                                    )
+                                    [pos].name??"",
+                                  );
+                                });
                           }),
-                        )
+                        ),
+
                       ],
                     ),
                   );
