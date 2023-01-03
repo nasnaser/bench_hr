@@ -1,7 +1,7 @@
 
 import 'package:bench_hr/constants/app_color.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 
 
 var w700TextStyle = TextStyle(

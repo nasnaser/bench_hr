@@ -5,6 +5,7 @@ import 'package:bench_hr/constants/app_color.dart';
 import 'package:bench_hr/screens/home/controllers/home_controller.dart';
 import 'package:bench_hr/utility/storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 class HomeScreen extends GetView<HomeController> {
@@ -13,7 +14,7 @@ class HomeScreen extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<HomeController>(builder: (logic) {
-      return SafeArea(
+      return SafeArea(top: true,left: false,right: false,
         child: Scaffold(
           body: logic.screen,
           bottomNavigationBar: Directionality(
@@ -25,37 +26,43 @@ class HomeScreen extends GetView<HomeController> {
               currentIndex: logic.navigatorValue,
               //logic.index,
               unselectedItemColor: Colors.grey,
-              showUnselectedLabels: false,showSelectedLabels: false,
+              showUnselectedLabels: true,showSelectedLabels: true,
 
               items: [
                 BottomNavigationBarItem(
-                    icon: Image.asset(
-                      "assets/image/home/home.png",
-                      height: 30,
-                      width: 30,color: logic.navigatorValue==0?ColorApp.PrimaryColor:Colors.grey ,
+                    icon: SvgPicture.asset(
+                      "assets/image/home/home.svg",
+                      height: 18,
+                      width: 38,color: logic.navigatorValue==0?ColorApp.PrimaryColor:Colors.grey ,
                     ),
-                    label: "", ),
+                    label: "الرئيسية", ),   BottomNavigationBarItem(
+                    icon: SvgPicture.asset(
+                        "assets/image/home/repot.svg",
+                        height: 18,
+                        width: 38,color: logic.navigatorValue==1?ColorApp.PrimaryColor:Colors.grey
+                    ),
+                    label: "التقارير"),
                 BottomNavigationBarItem(
-                    icon: Image.asset(
-                      "assets/image/home/req.png",
-                      height: 30,
-                      width: 30,color: logic.navigatorValue==1?ColorApp.PrimaryColor:Colors.grey
+                    icon: SvgPicture.asset(
+                      "assets/image/home/gitpullrequest.svg",
+                      height: 18,
+                      width: 38,color: logic.navigatorValue==2?ColorApp.PrimaryColor:Colors.grey
                     ),
-                    label: ""),
+                    label: "الطلبات"),
                 BottomNavigationBarItem(
-                    icon: Image.asset(
-                      "assets/image/home/history.png",
-                      height: 30,
-                      width: 30,color: logic.navigatorValue==2?ColorApp.PrimaryColor:Colors.grey
+                    icon: SvgPicture.asset(
+                      "assets/image/home/clock.svg",
+                      height: 18,
+                      width: 38,color: logic.navigatorValue==3?ColorApp.PrimaryColor:Colors.grey
                     ),
-                    label: ""),
+                    label: "الأجازات"),
                 BottomNavigationBarItem(
-                    icon: Image.asset(
-                      "assets/image/home/time.png",
-                      height: 30,
-                      width: 30,color: logic.navigatorValue==3?ColorApp.PrimaryColor:Colors.grey
+                    icon:SvgPicture.asset(
+                      "assets/image/home/clockstopwatch.svg",
+                      height: 18,
+                      width: 38,color: logic.navigatorValue==4?ColorApp.PrimaryColor:Colors.grey
                     ),
-                    label: "")
+                    label: "الورديات")
               ],
             ),
           ),

@@ -29,7 +29,7 @@ print("*"*100);
 print(err.toString());
 print("*"*100);
 Get.snackbar("err",err.message );
-
+return super.onError(err, handler) ;
   }
 
   @override
@@ -40,7 +40,8 @@ if(response.statusCode==200||response.statusCode==201){
 
 
 
-  Get.snackbar("err", "message");
+ // Get.snackbar("err", "message");
+
 }
  return super.onResponse(response, handler) ;}
 }

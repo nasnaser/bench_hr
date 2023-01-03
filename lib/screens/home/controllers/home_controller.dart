@@ -1,4 +1,3 @@
-
 import 'package:bench_hr/constants/app_color.dart';
 import 'package:bench_hr/network/apis/delete_comments_api.dart';
 import 'package:bench_hr/network/apis/delete_emoje_api.dart';
@@ -15,26 +14,30 @@ import 'package:bench_hr/screens/home/home_taps/tap1/tap1_screen.dart';
 import 'package:bench_hr/screens/home/home_taps/tap1/taps/tap1_tap1.dart';
 import 'package:bench_hr/utility/nested_open_page.dart';
 import 'package:bench_hr/utility/storage.dart';
+import 'package:carousel_slider/carousel_controller.dart';
 import 'package:flutter/material.dart';
+
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
+import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 class HomeController extends GetxController
     with GetSingleTickerProviderStateMixin {
   ScrollController newsFeedsListscrollController = ScrollController();
   ScrollController emojiscrollController = ScrollController();
+  final CarouselController carouselController = CarouselController();
   NewsFeedsModel? newsFeedsModel;
   List<CommentsList> commentsList = [];
   NewsFeedsCommentsModel? newsFeedsCommentsModel;
   bool isUpdatecomment = false;
   String comentID = "";
   int postId = 0;
-    int botomshhetemojeindex = 0;
+  int botomshhetemojeindex = 1;
   TextEditingController commentTextEditingController = TextEditingController();
   ScrollController commetscrollController = ScrollController();
   ItemScrollController itemScrollController = ItemScrollController();
-
+  PdfViewerController pdfViewerController = PdfViewerController();
   final ItemPositionsListener itemPositionsListener =
       ItemPositionsListener.create();
 
@@ -51,9 +54,13 @@ class HomeController extends GetxController
   late TabController tabController;
   int navigatorValue = 0;
   final List<Widget> myTabs = <Widget>[
+    Container(
+        width: double.infinity, height: double.infinity, color: Colors.green),
     Tap1Tap1(),
-    Tap1Tap1(),
-    Tap1Tap1(),
+    Container(
+        width: double.infinity,
+        height: double.infinity,
+        color: Colors.amberAccent),
   ];
 
   @override
@@ -84,6 +91,14 @@ class HomeController extends GetxController
             });
           }
         }
+      }
+    });
+    itemPositionsListener.itemPositions.addListener(() {
+      final indices = itemPositionsListener.itemPositions.value.map((e) => e);
+      print(indices.first.index);
+      if (botomshhetemojeindex != indices.first.index) {
+        botomshhetemojeindex = indices.first.index+1;
+        update();
       }
     });
   }
@@ -126,8 +141,7 @@ class HomeController extends GetxController
     });
   }
 
-  deletEmoje(
-      {required int pos, required String postId, required String emoje}) {
+  deletEmoje({required String postId, required String emoje}) {
     update();
     DeleteEmojeAPI deleteEmojeAPI = DeleteEmojeAPI();
     deleteEmojeAPI.idPost = postId;
@@ -135,26 +149,36 @@ class HomeController extends GetxController
   }
 
   addreactions({required int pos, required String emojei}) {
-    int itempos=0;
+    int itempos = 0;
 
-    bool isinlist=false;
+    bool isinlist = false;
     Reactions reactions =
         Reactions(defaultEmoji: emojei, selected: 1, total: 1);
-    for(int i=0;i<newsFeedsList[pos].reactions!.length;i++){
+    bool isSelect = false;
+    for (int i = 0; i < newsFeedsList[pos].reactions!.length; i++) {
+      if (newsFeedsList[pos].reactions![i].defaultEmoji == emojei) {
+        isinlist = true;
 
-
-      if(newsFeedsList[pos].reactions![i].defaultEmoji==emojei){
-        isinlist=true;
-        itempos=i;
+        itempos = i;
+        if (newsFeedsList[pos].reactions![i].selected == 1) {
+          isSelect = true;
+        }
         print(itempos);
       }
     }
-   if(isinlist){
-     newsFeedsList[pos].reactions![itempos].total=newsFeedsList[pos].reactions![itempos].total!+1;
-     newsFeedsList[pos].reactions![itempos].selected=1;
-   }else{
-     newsFeedsList[pos].reactions!.add(reactions);
-   }
+    if (!isSelect) {
+      if (isinlist) {
+        newsFeedsList[pos].reactions![itempos].total =
+            newsFeedsList[pos].reactions![itempos].total! + 1;
+        newsFeedsList[pos].reactions![itempos].selected = 1;
+      } else {
+        newsFeedsList[pos].reactions!.add(reactions);
+      }
+    } else {
+      newsFeedsList[pos].reactions![itempos].total =
+          newsFeedsList[pos].reactions![itempos].total! - 1;
+      deletEmoje(postId: newsFeedsList[pos].id.toString(), emoje: emojei);
+    }
 
     update();
   }
@@ -297,7 +321,7 @@ class HomeController extends GetxController
                                         context: context, id: postId);
                                   }
 
-                             logic.commentTextEditingController.clear();
+                                  logic.commentTextEditingController.clear();
                                   Navigator.pop(context);
                                 },
                                 child: Icon(Icons.send))
@@ -341,11 +365,14 @@ class HomeController extends GetxController
       }
     });
   }
-   String emojiFilter = "smileys-emotion";
- updatemojiFilter({required String filter}) {
+
+  String emojiFilter = "smileys-emotion";
+
+  updatemojiFilter({required String filter}) {
     emojiFilter = filter;
     update();
   }
+
   EmojiBotomSheet(
       {required context, required int postId, required int indexOfPostInList}) {
     showModalBottomSheet(
@@ -353,7 +380,7 @@ class HomeController extends GetxController
       isScrollControlled: true,
       isDismissible: true,
       shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(16))),
+          borderRadius: BorderRadius.vertical(top: Radius.circular(30))),
       builder: (context) => GetBuilder<HomeController>(builder: (logic) {
         print("ooooooooooooooo");
         return DraggableScrollableSheet(
@@ -363,6 +390,17 @@ class HomeController extends GetxController
           expand: false,
           builder: (_, controller) => Column(
             children: [
+              SizedBox(
+                height: 16,
+              ),
+              Center(
+                child: Container(
+                  height: 2,
+                  width: 30,
+                  decoration: BoxDecoration(
+                      color: ColorApp.greyIntroColor2.withOpacity(.5)),
+                ),
+              ),
               Padding(
                 padding: const EdgeInsets.only(right: 20.0, left: 20),
                 child: SizedBox(
@@ -372,46 +410,48 @@ class HomeController extends GetxController
                       scrollDirection: Axis.horizontal,
                       itemCount: AllEmojiToView.allgroupEmojiwithImage.length,
                       itemBuilder: (context, pos) {
-                        if (AllEmojiToView.allgroupEmojiwithImage[pos].name ==
-                            "1") {
+                          if (AllEmojiToView.allgroupEmojiwithImage[pos].name ==
+                             "1") {
                           return SizedBox();
                         } else {
-                          return Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: GestureDetector(
-                              onTap: () {
-                                itemScrollController.scrollTo(
-                                    index: pos,
-                                    duration: Duration(milliseconds: 20));
+                        print("0000000000000000000000000000000000000000");
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: GestureDetector(
+                            onTap: () {
+                              itemScrollController.scrollTo(
+                                  index: pos,
+                                  duration: Duration(milliseconds: 20));
 
-                                botomshhetemojeindex = pos;
-                            
-                                logic.updatemojiFilter(
-                                    filter: AllEmojiToView
-                                        .allgroupEmoji[botomshhetemojeindex]);
+                              botomshhetemojeindex = pos;
 
+                              logic.updatemojiFilter(
+                                  filter: AllEmojiToView
+                                      .allgroupEmoji[botomshhetemojeindex]);
+                            },
+                            child: Container(height: 20,width: 20,
+                                decoration: BoxDecoration(
+                                    color: pos == botomshhetemojeindex
+                                        ? Colors.teal
+                                        : Colors.white,
+                                    borderRadius: BorderRadius.circular(5)),
+                                child: SvgPicture.asset(
+                                  fit: BoxFit.fill,
+                                  AllEmojiToView
+                                      .allgroupEmojiwithImage[pos].image,
+                                  height: 20,
+                                  width: 20,
+                                  semanticsLabel: AllEmojiToView
+                                      .allgroupEmojiwithImage[pos].name,
+                                  color:Colors.black,
+                                )
+                                // Text(AllEmojiToView.allgroupEmoji[pos]
+                                // .replaceAll("-", " "))
 
-                              },
-                              child: Container(
-                                  decoration: BoxDecoration(
-                                      color: pos == botomshhetemojeindex
-                                          ? Colors.teal
-                                          : Colors.white,
-                                      borderRadius: BorderRadius.circular(5)),
-                                  child: SvgPicture.asset(
-                                      AllEmojiToView
-                                          .allgroupEmojiwithImage[pos].image,
-                                      height: 20,
-                                      width: 20,
-                                      semanticsLabel: AllEmojiToView
-                                          .allgroupEmojiwithImage[pos].name)
-                                  // Text(AllEmojiToView.allgroupEmoji[pos]
-                                  // .replaceAll("-", " "))
-
-                                  ),
-                            ),
-                          );
-                        }
+                                ),
+                          ),
+                        );
+                       }
                       }),
                 ),
               ),
@@ -427,67 +467,116 @@ class HomeController extends GetxController
                         //     .length!);
                         print(AllEmojiToView.allgroupEmoji[pos]);
                         if (AllEmojiToView.allgroupEmoji[pos] == "1") {
-                          return Text(AllEmojiToView.getEmojiName(
-                              AllEmojiToView.allgroupEmoji[pos + 1]));
+                          return Padding(
+                            padding: const EdgeInsets.only(
+                                right: 21.0, left: 21, bottom: 15, top: 15),
+                            child: Text(
+                                AllEmojiToView.getEmojiName(
+                                  AllEmojiToView.allgroupEmoji[pos+1 ],
+                                ),
+                                style: TextStyle(fontWeight: FontWeight.w600)),
+                          );
                           // return Text(AllEmojiToView.allgroupEmoji[pos+1]);
                         } else {
-                          return GridView.builder(
-                            //
-                            physics: NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            itemCount: AllEmojiToView
-                                .groupEmoji[AllEmojiToView.allgroupEmoji[pos]]!
-                                .length,
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 7,
-                                    crossAxisSpacing: 2.0,
-                                    mainAxisSpacing: 2.0),
-                            itemBuilder: (BuildContext context, int index) {
-                              return GestureDetector(
-                                onTap: () {
+                          return Padding(
+                            padding:
+                                const EdgeInsets.only(left: 15.0, right: 15),
+                            child: GridView.builder(
+                              //
+                              physics: NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemCount: AllEmojiToView
+                                  .groupEmoji[
+                                      AllEmojiToView.allgroupEmoji[pos]]!
+                                  .length,
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 8,
+                                      crossAxisSpacing: 6,
+                                      mainAxisSpacing: 6.0),
+                              itemBuilder: (BuildContext context, int index) {
+                                return GestureDetector(
+                                  onTap: () {
+                                    addreactions(
+                                        emojei: AllEmojiToView
+                                            .groupEmoji[AllEmojiToView
+                                                .allgroupEmoji[pos]]![index]
+                                            .slug!,
+                                        pos: indexOfPostInList);
+                                    update();
+                                    addEmojiToServer(
+                                        default_emoji: AllEmojiToView
+                                            .groupEmoji[AllEmojiToView
+                                                .allgroupEmoji[pos]]![index]
+                                            .slug!,
+                                        postID: postId);
 
-                                  addreactions(
-                                      emojei: AllEmojiToView
-                                          .groupEmoji[AllEmojiToView
-                                              .allgroupEmoji[pos]]![index]
-                                          .slug!,
-                                      pos: indexOfPostInList);
-                                  update();
-                                  addEmojiToServer(
-                                      default_emoji: AllEmojiToView
-                                          .groupEmoji[AllEmojiToView
-                                              .allgroupEmoji[pos]]![index]
-                                          .slug!,
-                                      postID: postId);
+                                    if (AllEmojiToView.HostoryEmojiList
+                                        .contains(AllEmojiToView.groupEmoji[
+                                            AllEmojiToView
+                                                .allgroupEmoji[pos]]![index])) {
+                                    } else {
+                                      AllEmojiToView.HostoryEmojiList.add(
+                                          AllEmojiToView.groupEmoji[
+                                              AllEmojiToView
+                                                  .allgroupEmoji[pos]]![index]);
+                                    }
 
-                                  if (AllEmojiToView.HostoryEmojiList.contains(
-                                      AllEmojiToView.groupEmoji[AllEmojiToView
-                                          .allgroupEmoji[pos]]![index])) {
-                                  } else {
-                                    AllEmojiToView.HostoryEmojiList.add(
-                                        AllEmojiToView.groupEmoji[AllEmojiToView
-                                            .allgroupEmoji[pos]]![index]);
-                                  }
-
-                                  Navigator.pop(context);
-                                },
-                                child: Container(
-                                    width: 20,
-                                    height: 20,
-                                    child: FittedBox(
-                                      fit: BoxFit.fill,
-                                      child: Text(AllEmojiToView
-                                          .groupEmoji[AllEmojiToView
-                                              .allgroupEmoji[pos]]![index]
-                                          .character!),
-                                    )),
-                              );
-                            },
+                                    Navigator.pop(context);
+                                  },
+                                  child: Container(
+                                      width: 5,
+                                      height: 5,
+                                      child: FittedBox(
+                                        fit: BoxFit.contain,
+                                        child: Text(AllEmojiToView
+                                            .groupEmoji[AllEmojiToView
+                                                .allgroupEmoji[pos]]![index]
+                                            .character!),
+                                      )),
+                                );
+                              },
+                            ),
                           );
                         }
                       }))
             ],
+          ),
+        );
+      }),
+    );
+  }
+
+  pdfBotomSheet({required context, required String pdfUrl}) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      isDismissible: true,
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(30))),
+      builder: (context) => GetBuilder<HomeController>(builder: (logic) {
+        return DraggableScrollableSheet(
+          initialChildSize: 0.8,
+          minChildSize: 0.2,
+          maxChildSize: 0.8,
+          expand: false,
+          builder: (_, controller) => Container(
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(30),
+                    topRight: Radius.circular(30))),
+            child: Padding(
+              padding: const EdgeInsets.only(top: 20,left: 8,right: 8),
+              child: SfPdfViewer.network(
+                pdfUrl,
+                enableTextSelection: true,
+                enableDoubleTapZooming: true,
+                controller: pdfViewerController,
+                enableDocumentLinkAnnotation: true,
+                enableHyperlinkNavigation: true,
+                canShowPaginationDialog: true,
+              ),
+            ),
           ),
         );
       }),

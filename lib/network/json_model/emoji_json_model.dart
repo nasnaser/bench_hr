@@ -35,6 +35,8 @@ class AllEmojiToView {
     groupEmoji.forEach((key, value) {
       allgroupEmoji.add("1");
       allgroupEmoji.add(key);
+      allgroupEmojiwithImage.add(CategoryEmoji(image: "1",name: "1"));
+      allgroupEmojiwithImage.add(CategoryEmoji(image:getEmojiImage(key),name: getEmojiName(key)));
     });
     groupEmoji["host"]=HostoryEmojiList;
     allgroupEmoji.insert(0, "host");
@@ -42,26 +44,69 @@ class AllEmojiToView {
   static String getEmojiName(String name) {
     if (name == "smileys-emotion") {
       return "Smileys & People";
-    } else if (name == "people-body") {
+    }
+    else if (name == "people-body") {
 // allgroupEmojiwithImage.add(CategoryEmoji(image: ,name: "Smileys & People"));
       return "1";
-    } else if (name == "animals-nature") {
+    }
+    else if (name == "animals-nature") {
       return "Animal & Nature";
-    } else if (name == "travel-places") {
+    }
+    else if (name == "travel-places") {
       return "Travel & Places";
-    } else if (name == "objects") {
+    }
+    else if (name == "objects") {
       return "Objects";
-    } else if (name == "symbols") {
+    }
+    else if (name == "symbols") {
       return "Symbols";
-    } else if (name == "flags") {
+    }
+    else if (name == "flags") {
       return "Flags";
-    } else if (name == "activities") {
+    }
+    else if (name == "activities") {
       return "Activities";
-    } else if (name == "food-drink") {
+    }
+    else if (name == "food-drink") {
       return "Food & Drink";
     }
     return "";
   }
+
+  static String getEmojiImage(String name){
+    if (name == "smileys-emotion") {
+      return "assets/image/emojiimage/face-smile.svg";
+    }
+    else if (name == "people-body") {
+// allgroupEmojiwithImage.add(CategoryEmoji(image: ,name: "Smileys & People"));
+      return    "assets/image/emojiimage/face-smile.svg";
+    }
+    else if (name == "animals-nature") {
+      return "assets/image/emojiimage/colors.svg";
+    }
+    else if (name == "travel-places") {
+      return "assets/image/emojiimage/plane.svg";
+    }
+    else if (name == "objects") {
+      return "assets/image/emojiimage/lightbulb.svg";
+    }
+    else if (name == "symbols") {
+      return "assets/image/emojiimage/heart.svg";
+    }
+    else if (name == "flags") {
+      return "assets/image/emojiimage/flag.svg";
+    }
+    else if (name == "activities") {
+      return "assets/image/emojiimage/gaming.svg";
+    }
+    else if (name == "food-drink") {
+      return "assets/image/emojiimage/palette.svg";
+    }
+    return "";
+  }
+
+
+
 }
 
 class EmojiJsonModel {

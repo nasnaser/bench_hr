@@ -11,6 +11,12 @@ class ColorApp{
   static Color otpColorBack  =   HexColor("#F2F5F5");
   static Color SecondaryColor  =   HexColor("#FF5745");
   static Color SuccessColor  =   HexColor("#32D583");
+  static Color inputColor  =   HexColor("#F2F5F5");
+  static Color iconColor  =   HexColor("#1D2939");
+  static Color grayDividerColor  =   HexColor("#D0D5DD");
+  static Color graybackImojiColor  =   HexColor("#F2F4F7");
+  static Color grayTextImojiColor  =   HexColor("#98A2B3");
+  static Color grayDividerColor2  =   HexColor("#EAECF0");
 
 
 }
