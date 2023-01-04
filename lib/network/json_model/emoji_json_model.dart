@@ -47,7 +47,7 @@ class AllEmojiToView {
     }
     else if (name == "people-body") {
 // allgroupEmojiwithImage.add(CategoryEmoji(image: ,name: "Smileys & People"));
-      return "1";
+      return "People Body";
     }
     else if (name == "animals-nature") {
       return "Animal & Nature";

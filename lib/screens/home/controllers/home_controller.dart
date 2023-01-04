@@ -30,6 +30,9 @@ import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 import 'package:table_calendar/table_calendar.dart';
 
+import '../../../network/apis/events_api.dart';
+import '../../attendace/attendace_screen.dart';
+
 class HomeController extends GetxController
     with GetSingleTickerProviderStateMixin {
   ScrollController newsFeedsListscrollController = ScrollController();
@@ -59,7 +62,7 @@ class HomeController extends GetxController
 
   List<Widget> screens = [
     Tap1Screen(),
-    Tap1Screen(),
+    Attendance(),
     Tap1Screen(),
     Tap1Screen(),
   ];
@@ -629,6 +632,13 @@ class HomeController extends GetxController
     this.focusedDay = focusedDay;
 
     update();
+    EventsAPI eventsAPI=EventsAPI();
+    eventsAPI.date=selectedDay.toString().substring(0,10);
+    eventsAPI.getData().then((value) {
+      EventsModel eventsModel=value as EventsModel;
+
+      print(eventsModel.toJson());
+    });
   }
 
   DateTimeSheet({required context}) {

@@ -22,7 +22,8 @@ class Events extends GetView<HomeController> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: const EdgeInsets.only(bottom: 8.0,top: 8,left: 25,right: 25),
+                padding: const EdgeInsets.only(
+                    bottom: 8.0, top: 8, left: 25, right: 25),
                 child: Row(
                   children: [
                     Column(
@@ -38,14 +39,18 @@ class Events extends GetView<HomeController> {
                           children: [
 
                             Text(
-                                "${DateFormat('yy').format(controller.selectedDay )}",
+                              "${DateFormat('yy').format(
+                                  controller.selectedDay)}",
 
                               style: TextStyle(
                                   fontWeight: FontWeight.w400,
                                   fontSize: 14,
-                                  color: Colors.grey),maxLines: 1,
-                            ),  Text(" ${DateFormat('MMMM').format(controller.selectedDay )}"),
-                            Text(" ${DateFormat('dd').format(controller.selectedDay )}"),   ],
+                                  color: Colors.grey), maxLines: 1,
+                            ), Text(" ${DateFormat('MMMM').format(
+                                controller.selectedDay)}"),
+                            Text(" ${DateFormat('dd').format(
+                                controller.selectedDay)}"),
+                          ],
                         ),
                       ],
                     ),
@@ -60,30 +65,37 @@ class Events extends GetView<HomeController> {
               ),
               SizedBox(
                 height: 150,
-                child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount:controller
-                        .getdayEvent(
-                        DateTime.now()  )
-                        ?.length,
-                    itemBuilder: (context, pos) {
-                      return EventsTodayItems(
-                        title: controller
-                            .getdayEvent(
-                            DateTime.now()  )
-                            ?[pos].name??"",
-                        des:  controller
-                            .getdayEvent(
-                            DateTime.now()  )
-                        ?[pos].description??"",
-                        back: "assets/image/event/event1.png",
-                        likes: [],
-                        pic: "assets/image/event/Icon.png",
-                      );
-                    }),
+                child: GetBuilder<HomeController>(builder: (logic) {
+                  return ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: controller
+                          .getdayEvent(
+                         logic.selectedDay)
+                          ?.length,
+                      itemBuilder: (context, pos) {
+                        return EventsTodayItems(
+                          title: controller
+                              .getdayEvent(
+                           logic.selectedDay)
+                          ?[pos].name ?? "",
+                          des: controller
+                              .getdayEvent(
+                              logic.selectedDay)
+                          ?[pos].description ?? "",
+                          back: "assets/image/event/event1.png",
+                          hxcolor: controller
+                              .getdayEvent(
+                              logic.selectedDay)
+                          ![pos].eventType!.color!,
+                          likes: [],
+                          pic: "assets/image/event/Icon.png",
+                        );
+                      });
+                }),
               ),
               Padding(
-                padding: const EdgeInsets.only(bottom: 8.0,top: 8,left: 25,right: 25),
+                padding: const EdgeInsets.only(
+                    bottom: 8.0, top: 8, left: 25, right: 25),
                 child: Text(
                   "الأقسـام",
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
@@ -91,55 +103,63 @@ class Events extends GetView<HomeController> {
               ),
               GetBuilder<HomeController>(builder: (logic) {
                 return Padding(
-                  padding: const EdgeInsets.only(bottom: 8.0,top: 8,right: 25),
+                  padding: const EdgeInsets.only(
+                      bottom: 8.0, top: 8, right: 25),
                   child: SizedBox(
                       height: 30,
                       child: logic.eventTypesModel == null
                           ? CircularProgressIndicator()
                           : Row(
-                            children: [
-                          GestureDetector(onTap: (){
-                  logic.updateevent_typeandisFilter(type:10000, filter: false);
-                  },
-                    child: PartMantItem(
-                      backcolor: HexColor("#015555")
-                          .withOpacity(.1),
-                      borderColor: HexColor("#015555"),
-                      titel:"الكل",
-                    ),),
+                        children: [
+                          GestureDetector(onTap: () {
+                            logic.updateevent_typeandisFilter(
+                                type: 10000, filter: false);
+                          },
+                            child: PartMantItem(
+                              backcolor: HexColor("#015555")
+                                  .withOpacity(.1),
+                              borderColor: HexColor("#015555"),
+                              titel: "الكل",
+                            ),),
 
 
-                              Expanded(
-                                child: ListView.builder(
-                                    scrollDirection: Axis.horizontal,
-                                    itemCount:
-                                        logic.eventTypesModel?.data?.list?.length,
-                                    itemBuilder: (context, pos) {
-                                      return
-                                        GestureDetector(onTap: (){
-                                        logic.updateevent_typeandisFilter(type: logic.eventTypesModel!
-                                            .data!.list![pos].id!, filter: true);
-                                      },
-                                        child: PartMantItem(
-                                          backcolor: HexColor(logic.eventTypesModel!
-                                                  .data!.list![pos].color!)
-                                              .withOpacity(.1),
-                                          borderColor: HexColor(logic.eventTypesModel!
-                                              .data!.list![pos].color!),
-                                          titel: logic
-                                              .eventTypesModel!.data!.list![pos].name!,
-                                        ),
-                                      );
-                                    }),
-                              ),
-                            ],
-                          )),
+                          Expanded(
+                            child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                itemCount:
+                                logic.eventTypesModel?.data?.list?.length,
+                                itemBuilder: (context, pos) {
+                                  return
+                                    GestureDetector(onTap: () {
+                                      logic.updateevent_typeandisFilter(
+                                          type: logic.eventTypesModel!
+                                              .data!.list![pos].id!,
+                                          filter: true);
+                                    },
+                                      child: PartMantItem(
+                                        backcolor: HexColor(
+                                            logic.eventTypesModel!
+                                                .data!.list![pos].color!)
+                                            .withOpacity(.1),
+                                        borderColor: HexColor(
+                                            logic.eventTypesModel!
+                                                .data!.list![pos].color!),
+                                        titel: logic
+                                            .eventTypesModel!.data!.list![pos]
+                                            .name!,
+                                      ),
+                                    );
+                                }),
+                          ),
+                        ],
+                      )),
                 );
               }),
               Divider(
                   color: ColorApp.grayDividerColor2, height: 1, thickness: 1),
               Padding(
-                padding: const EdgeInsets.only(bottom: 8.0,top: 8,left: 25,right: 25),
+                padding: const EdgeInsets.only(
+                    bottom: 8.0, top: 8, left: 25, right: 25),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -154,22 +174,28 @@ class Events extends GetView<HomeController> {
                         height: 50,
                         child: Center(
                             child: Column(
-                          children: [
-                            Text(
-                              "${DateFormat('dd').format(controller.selectedDay )}",
-                              maxLines: 3,
-                              style: TextStyle(
-                                  fontSize: 10, fontWeight: FontWeight.bold),
-                              textAlign: TextAlign.center,
-                            ),
-                            Text(
-                              "${DateFormat('MMMM').format(controller.selectedDay ?? DateTime.now())}\n${DateFormat('yy').format(controller.selectedDay ?? DateTime.now())}",
-                              maxLines: 3,
-                              style: TextStyle(fontSize: 10),
-                              textAlign: TextAlign.center,
-                            ),
-                          ],
-                        )),
+                              children: [
+                                Text(
+                                  "${DateFormat('dd').format(
+                                      controller.selectedDay)}",
+                                  maxLines: 3,
+                                  style: TextStyle(
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.bold),
+                                  textAlign: TextAlign.center,
+                                ),
+                                Text(
+                                  "${DateFormat('MMMM').format(
+                                      controller.selectedDay ??
+                                          DateTime.now())}\n${DateFormat('yy')
+                                      .format(controller.selectedDay ??
+                                      DateTime.now())}",
+                                  maxLines: 3,
+                                  style: TextStyle(fontSize: 10),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ],
+                            )),
                       ),
                     ),
                     Expanded(
@@ -179,15 +205,15 @@ class Events extends GetView<HomeController> {
                             shrinkWrap: true,
                             itemCount: logic
                                 .getdayEvent(
-                                    logic.selectedDay  )
+                                logic.selectedDay)
                                 ?.length,
                             itemBuilder: (context, pos) {
                               String des = "";
                               List list = logic
-                                      .getdayEvent(logic.selectedDay ??
-                                          DateTime.now())?[pos]
-                                      ?.description
-                                      ?.split(" ") ??
+                                  .getdayEvent(logic.selectedDay ??
+                                  DateTime.now())?[pos]
+                                  ?.description
+                                  ?.split(" ") ??
                                   [];
                               // if(list.length>5){
                               //   for(int i=0;i<5;){
@@ -195,26 +221,26 @@ class Events extends GetView<HomeController> {
                               //   }
                               //   }else{
                               des = logic
-                                      .getdayEvent(logic.selectedDay ??
-                                          DateTime.now())?[pos]
-                                      ?.description ??
+                                  .getdayEvent(logic.selectedDay ??
+                                  DateTime.now())?[pos]
+                                  ?.description ??
                                   "";
                               //   }
 
                               if (logic.isFilter) {
                                 if (logic
-                                        .getdayEvent(logic.selectedDay)[pos]
-                                        .eventType!
-                                        .id ==
+                                    .getdayEvent(logic.selectedDay)[pos]
+                                    .eventType!
+                                    .id ==
                                     logic.event_type) {
                                   return DateEventItem(
                                     event: des,
                                     image:
-                                        "https://tse4.mm.bing.net/th?id=OIP.HdETgqkYpSTZhRHQcDetIgHaFS&pid=Api&P=0",
+                                    "https://tse4.mm.bing.net/th?id=OIP.HdETgqkYpSTZhRHQcDetIgHaFS&pid=Api&P=0",
                                     name: logic
-                                            .getdayEvent(logic.selectedDay ??
-                                                DateTime.now())[pos]
-                                            .name ??
+                                        .getdayEvent(logic.selectedDay ??
+                                        DateTime.now())[pos]
+                                        .name ??
                                         "",
                                   );
                                 } else {
@@ -224,11 +250,11 @@ class Events extends GetView<HomeController> {
                                 return DateEventItem(
                                   event: des,
                                   image:
-                                      "https://tse4.mm.bing.net/th?id=OIP.HdETgqkYpSTZhRHQcDetIgHaFS&pid=Api&P=0",
+                                  "https://tse4.mm.bing.net/th?id=OIP.HdETgqkYpSTZhRHQcDetIgHaFS&pid=Api&P=0",
                                   name: logic
-                                          .getdayEvent(logic.selectedDay ??
-                                              DateTime.now())[pos]
-                                          .name ??
+                                      .getdayEvent(logic.selectedDay ??
+                                      DateTime.now())[pos]
+                                      .name ??
                                       "",
                                 );
                               }

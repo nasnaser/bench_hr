@@ -12,13 +12,10 @@ class PartMantItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(right: 4.0,left: 4),
-      child: Container(height: 50,
+      child: Container(height: 50,padding: EdgeInsets.only(right: 6,left: 6),
         decoration: BoxDecoration(
             color: backcolor, border: Border.all(color: borderColor),borderRadius: BorderRadius.circular(15)),
-      child: Padding(
-        padding: const EdgeInsets.all(2.0),
-        child: Center(child: Text(titel)),
-      ),),
+      child: Center(child: Text(titel)),),
     );
   }
 }
