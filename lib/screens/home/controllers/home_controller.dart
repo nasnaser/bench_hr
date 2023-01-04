@@ -125,6 +125,7 @@ class HomeController extends GetxController
     });
     getEventTypes();
     getAllevents();
+    geteventsDay();
   }
 
   List<NewsFeedsList> newsFeedsList = [];
@@ -626,19 +627,25 @@ class HomeController extends GetxController
 
     return selectedEvents[dateTime.toString().substring(0, 10)] ?? [];
   }
+  EventsModel? eventsDay;
+
+  geteventsDay(){
+    EventsAPI eventsAPI=EventsAPI();
+    eventsAPI.date=selectedDay.toString().substring(0,10);
+    eventsAPI.getData().then((value) {
+      eventsDay=value as EventsModel;
+update();
+      print(eventsDay?.toJson());
+    });
+  }
+
 
   updateselectedDay(selectedDay, focusedDay) {
     this.selectedDay = selectedDay;
     this.focusedDay = focusedDay;
-
+    geteventsDay();
     update();
-    EventsAPI eventsAPI=EventsAPI();
-    eventsAPI.date=selectedDay.toString().substring(0,10);
-    eventsAPI.getData().then((value) {
-      EventsModel eventsModel=value as EventsModel;
 
-      print(eventsModel.toJson());
-    });
   }
 
   DateTimeSheet({required context}) {
@@ -802,13 +809,13 @@ class HomeController extends GetxController
                         return i == 0
                             ? SizedBox()
                             : Container(
-                                height: 20,
-                                width: 20,
-                                color: Colors.red,
-                                child: Center(
-                                  child: Text(
-                                      "${getdayEvent(DateTime.parse(datetime.toString().substring(0, 10))).length}"),
-                                ),
+                                // height: 20,
+                                // width: 20,
+                                // color: Colors.red,
+                                // child: Center(
+                                //   child: Text(
+                                //       "${getdayEvent(DateTime.parse(datetime.toString().substring(0, 10))).length}"),
+                                // ),
                               );
                       }),
                       selectedDayPredicate: (day) {
@@ -860,7 +867,19 @@ class HomeController extends GetxController
   }
 
   AllEventsModel? allEventsModel;
+List<String>daysDateList=[];
+bool checkIfListHaveItemInFilter({required filterId,required List<EventsList> list}){
+  bool listHaveItemInFilter=false;
+  for(int i=0;i<list.length;i++){
+    if(list[i].eventType!.id==filterId){
+      listHaveItemInFilter=true;
+    }
+  }
 
+
+
+  return listHaveItemInFilter;
+}
   getAllevents() {
     AlleventsApi alleventsApi = AlleventsApi();
 
@@ -871,10 +890,12 @@ class HomeController extends GetxController
         if (selectedEvents[allEventsModel!.data!.list![i]!.startDate!] ==
             null) {
           selectedEvents[allEventsModel!.data!.list![i]!.startDate!] = [];
+          daysDateList.add(allEventsModel!.data!.list![i]!.startDate!);
         }
         selectedEvents[allEventsModel!.data!.list![i]!.startDate!]
             ?.add(allEventsModel!.data!.list![i]);
       }
+      daysDateList.sort();
       update();
     });
   }
