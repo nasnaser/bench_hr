@@ -96,26 +96,44 @@ class Events extends GetView<HomeController> {
                       height: 30,
                       child: logic.eventTypesModel == null
                           ? CircularProgressIndicator()
-                          : ListView.builder(
-                              scrollDirection: Axis.horizontal,
-                              itemCount:
-                                  logic.eventTypesModel?.data?.list?.length,
-                              itemBuilder: (context, pos) {
-                                return GestureDetector(onTap: (){
-                                  logic.updateevent_typeandisFilter(type: logic.eventTypesModel!
-                                      .data!.list![pos].id!, filter: true);
-                                },
-                                  child: PartMantItem(
-                                    backcolor: HexColor(logic.eventTypesModel!
-                                            .data!.list![pos].color!)
-                                        .withOpacity(.1),
-                                    borderColor: HexColor(logic.eventTypesModel!
-                                        .data!.list![pos].color!),
-                                    titel: logic
-                                        .eventTypesModel!.data!.list![pos].name!,
-                                  ),
-                                );
-                              })),
+                          : Row(
+                            children: [
+                          GestureDetector(onTap: (){
+                  logic.updateevent_typeandisFilter(type:10000, filter: false);
+                  },
+                    child: PartMantItem(
+                      backcolor: HexColor("#015555")
+                          .withOpacity(.1),
+                      borderColor: HexColor("#015555"),
+                      titel:"الكل",
+                    ),),
+
+
+                              Expanded(
+                                child: ListView.builder(
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount:
+                                        logic.eventTypesModel?.data?.list?.length,
+                                    itemBuilder: (context, pos) {
+                                      return
+                                        GestureDetector(onTap: (){
+                                        logic.updateevent_typeandisFilter(type: logic.eventTypesModel!
+                                            .data!.list![pos].id!, filter: true);
+                                      },
+                                        child: PartMantItem(
+                                          backcolor: HexColor(logic.eventTypesModel!
+                                                  .data!.list![pos].color!)
+                                              .withOpacity(.1),
+                                          borderColor: HexColor(logic.eventTypesModel!
+                                              .data!.list![pos].color!),
+                                          titel: logic
+                                              .eventTypesModel!.data!.list![pos].name!,
+                                        ),
+                                      );
+                                    }),
+                              ),
+                            ],
+                          )),
                 );
               }),
               Divider(
