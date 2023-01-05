@@ -56,10 +56,15 @@ class Attendance extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Container(decoration: BoxDecoration(borderRadius: BorderRadius.circular(15),color: HexColor("#80AAAA")),
+                  Container(
+                    padding: EdgeInsets.all(4),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        color: HexColor("#80AAAA")),
                     height: 50,
                     width: 50,
-                    child: GestureDetector(child: Image.asset("assets/image/filtericon.png")),
+                    child: GestureDetector(
+                        child: Image.asset("assets/image/filtericon.png")),
                   ),
                 ],
               ))
