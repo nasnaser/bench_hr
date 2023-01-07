@@ -70,7 +70,15 @@ class Attendance extends StatelessWidget {
               ))
             ]),
           ),
-        )
+        ),
+        Expanded(
+            child: ListView.builder(
+                itemCount: 100,
+                itemBuilder: (context, pos) {
+                  return Column(
+                    children: [],
+                  );
+                }))
       ],
     );
   }

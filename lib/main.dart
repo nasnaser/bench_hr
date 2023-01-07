@@ -1,4 +1,3 @@
-
 import 'package:bench_hr/screens/auth/binding/login_binding.dart';
 import 'package:bench_hr/screens/auth/login_screen.dart';
 import 'package:bench_hr/screens/auth/login_verify_screen.dart';
@@ -12,12 +11,13 @@ import 'package:bench_hr/translation/trans.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await GetStorage.init();
-
+  await initializeDateFormatting("ar_SA", null);
   runApp(const MyApp());
 }
 
