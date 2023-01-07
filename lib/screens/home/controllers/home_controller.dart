@@ -748,7 +748,7 @@ class HomeController extends GetxController
                                       ),
                                       Text(
                                         DateTableCalendarUtils
-                                            .weekdays[selectedDay.weekday - 1],
+                                            .arweekdays[selectedDay.weekday - 1],
                                         style: TextStyle(),
                                       ),
                                       SizedBox(
@@ -786,7 +786,7 @@ class HomeController extends GetxController
                             height: 1,
                             thickness: 1,),
                           Expanded(
-                            child: TableCalendar(
+                            child: TableCalendar(locale: "ar",
                               eventLoader: logic.getdayEvent,
                               calendarBuilders: CalendarBuilders(
                                   defaultBuilder: (context, _datetime,

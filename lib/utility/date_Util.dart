@@ -37,6 +37,15 @@ class DateTableCalendarUtils {
     'Sat',
     'Sun',
   ];
+  static const List<String> arweekdays = [
+    'الاثنين',
+    'الثلاث',
+    'الاربعاء',
+    'الخميس',
+    'الجمعة',
+    'السبت',
+    'الاحد',
+  ];
 
   static const List months = [
     'January',
