@@ -36,6 +36,8 @@ import '../../shared_widget/custom_button.dart';
 
 class HomeController extends GetxController
     with GetSingleTickerProviderStateMixin {
+  BuildContext? eventCotext;
+
   ScrollController newsFeedsListscrollController = ScrollController();
   ScrollController emojiscrollController = ScrollController();
   final CarouselController carouselController = CarouselController();
@@ -247,119 +249,199 @@ class HomeController extends GetxController
         minChildSize: 0.2,
         maxChildSize: 0.85,
         expand: false,
-        builder: (_, controller) => Column(
-          children: [
-            SizedBox(
-              height: 8,
-            ),
-            Center(
-              child: Container(
-                height: 2,
-                width: 100,
-                decoration: BoxDecoration(color: ColorApp.PrimaryColor),
+        builder: (_, controller) => Padding(
+          padding: const EdgeInsets.only(right: 20.0,left: 20),
+          child: Column(
+            children: [
+              SizedBox(
+                height: 8,
               ),
-            ),
-            Expanded(
-              child: GetBuilder<HomeController>(builder: (logic) {
-                return Column(
-                  children: [
-                    Expanded(
-                      child: ListView.builder(
-                        controller: commetscrollController,
-                        itemCount: data.length,
-                        itemBuilder: (_, index) {
-                          return Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Card(
-                              child: Padding(
-                                padding: EdgeInsets.all(8),
-                                child: Column(children: [
-                                  //  Center(child: Text("${data.data?.pagination.}Comments")),
-                                  Row(
+              Center(
+                child: Container(
+                  height: 2,
+                  width: 100,
+                  decoration: BoxDecoration(color: ColorApp.PrimaryColor),
+                ),
+              ),SizedBox(height: 10,),
+              Row(
+                children: [
+                  Text(
+                    "التعليقات",
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w500,
+                        color: HexColor("#015555")),
+                  )
+                ],
+              ),SizedBox(height: 10,),
+              Expanded(
+                child: GetBuilder<HomeController>(builder: (logic) {
+                  return Column(
+                    children: [
+                      Expanded(
+                        child: ListView.builder(
+                          controller: commetscrollController,
+                          itemCount: data.length,
+                          itemBuilder: (_, index) {
+                            return Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Container(
+                                  color: HexColor("#FFFFFF"),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       CircleAvatar(
                                         maxRadius: 25,
                                         backgroundImage: NetworkImage(
-                                            data[index]
-                                                .employee!
-                                                .profilePhoto!),
+                                            data[index].employee!.profilePhoto!),
                                       ),
                                       SizedBox(
-                                        width: 4,
+                                        width: 8,
                                       ),
-                                      Text(data[index].employee!.fullName!),
-                                      Spacer(),
-                                      if (data[index].employee!.uuid ==
-                                          logInVerifyModel!.data!.user!.uuid)
-                                        GestureDetector(
-                                            onTap: () {
-                                              deletcomments(
-                                                  comentid: data[index].id);
-                                            },
-                                            child: Icon(Icons.delete))
+                                      Expanded(
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(top: 10.0),
+                                            child: Container(
+                                        decoration: BoxDecoration(
+                                              color: HexColor("#F7F9F9"),
+                                              borderRadius:
+                                                  BorderRadius.circular(8)),
+                                        child: Column(children: [
+                                            Row(
+                                              children: [
+                                                Text(
+                                                    data[index].employee!.fullName!,
+                                                    style: TextStyle(
+                                                        fontWeight: FontWeight.w500,
+                                                        fontSize: 14)),
+                                                Spacer(),
+                                                if (data[index].employee!.uuid ==
+                                                    logInVerifyModel!
+                                                        .data!.user!.uuid)
+                                                  GestureDetector(
+                                                      onTap: () {
+                                                        deletcomments(
+                                                            comentid:
+                                                                data[index].id);
+                                                      },
+                                                      child: Icon(Icons.delete))
+                                              ],
+                                            ),
+                                            GestureDetector(
+                                                onLongPress: () {
+                                                  logic.commentTextEditingController
+                                                      .text = data[index].comment!;
+                                                  comentID =
+                                                      data[index].id.toString();
+                                                  logic.update();
+                                                },
+                                                child: Row(
+                                                  children: [
+                                                    Text(data[index].comment!),
+                                                  ],
+                                                ))
+                                        ]),
+                                      ),
+                                          ))
                                     ],
-                                  ),
+                                  )),
+                            );
 
-                                  GestureDetector(
-                                      onLongPress: () {
-                                        // logic.coment.text =
-                                        // data[index].comment!;
-                                        // comentID = data[index].id.toString();
-                                        // logic.update();
-                                      },
-                                      child: Text(data[index].comment!))
-                                ]),
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
-                            border: Border.all(color: ColorApp.PrimaryColor)),
-                        child: Row(
-                          children: [
-                            Expanded(
-                                child: TextField(
-                                    controller: commentTextEditingController,
-                                    decoration: const InputDecoration(
-                                      border: InputBorder.none,
-                                      focusedBorder: InputBorder.none,
-                                      enabledBorder: InputBorder.none,
-                                      errorBorder: InputBorder.none,
-                                      disabledBorder: InputBorder.none,
-                                      contentPadding: EdgeInsets.only(
-                                          left: 15,
-                                          bottom: 4,
-                                          top: 4,
-                                          right: 15),
-                                    ))),
-                            GestureDetector(
-                                onTap: () {
-                                  if (logic.isUpdatecomment) {
-                                    logic.updateComments(comentid: comentID);
-                                  } else {
-                                    logic.addComments(
-                                        context: context, id: postId);
-                                  }
-
-                                  logic.commentTextEditingController.clear();
-                                  Navigator.pop(context);
-                                },
-                                child: Icon(Icons.send))
-                          ],
+                            //
+                            // return Padding(
+                            //   padding: const EdgeInsets.all(8.0),
+                            //   child: Card(
+                            //     child: Padding(
+                            //       padding: EdgeInsets.all(8),
+                            //       child: Column(children: [
+                            //         //  Center(child: Text("${data.data?.pagination.}Comments")),
+                            //         Row(
+                            //           children: [
+                            //             CircleAvatar(
+                            //               maxRadius: 25,
+                            //               backgroundImage: NetworkImage(
+                            //                   data[index]
+                            //                       .employee!
+                            //                       .profilePhoto!),
+                            //             ),
+                            //             SizedBox(
+                            //               width: 4,
+                            //             ),
+                            //             Text(data[index].employee!.fullName!),
+                            //             Spacer(),
+                            //             if (data[index].employee!.uuid ==
+                            //                 logInVerifyModel!.data!.user!.uuid)
+                            //               GestureDetector(
+                            //                   onTap: () {
+                            //                     deletcomments(
+                            //                         comentid: data[index].id);
+                            //                   },
+                            //                   child: Icon(Icons.delete))
+                            //           ],
+                            //         ),
+                            //
+                            //         GestureDetector(
+                            //             onLongPress: () {
+                            //               // logic.coment.text =
+                            //               // data[index].comment!;
+                            //               // comentID = data[index].id.toString();
+                            //               // logic.update();
+                            //             },
+                            //             child: Text(data[index].comment!))
+                            //       ]),
+                            //     ),
+                            //   ),
+                            // );
+                          },
                         ),
                       ),
-                    )
-                  ],
-                );
-              }),
-            ),
-          ],
+                      Padding(
+                        padding: const EdgeInsets.all(4.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              border: Border.all(color: ColorApp.PrimaryColor)),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                  child: TextField(
+                                      controller: commentTextEditingController,
+                                      decoration: const InputDecoration(
+                                        border: InputBorder.none,
+                                        focusedBorder: InputBorder.none,
+                                        enabledBorder: InputBorder.none,
+                                        errorBorder: InputBorder.none,
+                                        disabledBorder: InputBorder.none,
+                                        contentPadding: EdgeInsets.only(
+                                            left: 15,
+                                            bottom: 4,
+                                            top: 4,
+                                            right: 15),
+                                      ))),
+                              GestureDetector(
+                                  onTap: () {
+                                    if (logic.isUpdatecomment) {
+                                      logic.updateComments(comentid: comentID);
+                                    } else {
+                                      logic.addComments(
+                                          context: context, id: postId);
+                                    }
+
+                                    logic.commentTextEditingController.clear();
+                                    Navigator.pop(context);
+                                  },
+                                  child: Icon(Icons.send))
+                            ],
+                          ),
+                        ),
+                      )
+                    ],
+                  );
+                }),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -648,9 +730,6 @@ class HomeController extends GetxController
     update();
   }
 
-
-
-
   DateTimeSheet({required context}) {
     late PageController _pageController;
     showModalBottomSheet(
@@ -762,7 +841,6 @@ class HomeController extends GetxController
                     height: 1,
                     thickness: 1,
                   ),
-
                   Expanded(
                     child: TableCalendar(
                       locale: "ar",
@@ -917,6 +995,9 @@ class HomeController extends GetxController
                         // draggableScrollableController.animateTo(
                         //     .1, duration: Duration(microseconds: 500),
                         //     curve: Curves.linear);
+
+                        Scaffold.of(eventCotext!).showBodyScrim(false, 0.0);
+                        Navigator.pop(context!);
                       },
                       width: double.infinity,
                       buttonColor: HexColor("#015555"),

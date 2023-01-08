@@ -4,6 +4,7 @@ import 'package:bench_hr/network/json_model/emoji_json_model.dart';
 import 'package:bench_hr/screens/home/controllers/home_controller.dart';
 
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -108,10 +109,19 @@ class Tap1Tap1 extends StatelessWidget {
                             logic.pdfBotomSheet(context: context, pdfUrl: e.attachment!);
                             //Get.to(()=>PdfVierr());
                           },
-                            child: Container(  height: 50,width: 50,child:
+                           child:DottedBorder(
+                             color: Colors.black,
+                             strokeWidth: 1,
+                             child:  SvgPicture.asset("assets/image/pdf_file_icon.svg"),
+                           )
 
 
-                           SvgPicture.asset("assets/image/pdf_file_icon.svg"),),
+                           //Container(height: 70,
+                           //    child: Container(  height: 50,width: 50,child:
+                           //
+                           //
+                           // SvgPicture.asset("assets/image/pdf_file_icon.svg"),),
+                           //  ),
                           );
                            }else{
                              return                            Image.network(

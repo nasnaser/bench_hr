@@ -57,6 +57,7 @@ dependencies:
   syncfusion_flutter_pdfviewer: ^20.4.41
   #flutter_pdfview: ^1.2.5
   another_stepper: ^1.1.6
+  dotted_border: ^2.0.0+3
 
 
 dev_dependencies:

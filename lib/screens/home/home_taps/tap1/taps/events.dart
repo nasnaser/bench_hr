@@ -16,6 +16,7 @@ class Events extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
+    controller.eventCotext=context;
     return Scaffold(
       body: Column(
           mainAxisAlignment: MainAxisAlignment.start,
