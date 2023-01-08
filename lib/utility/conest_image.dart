@@ -4,21 +4,19 @@ class AppImage {
 
 
   static String   getimageEventsIconPath({required String eventIcon}) {
+    print("eventIcon=>  $eventIcon");
     if(eventIcon=="barchart06"){
       return "assets/image/eventsicon/birthday.svg";
     }else if(eventIcon=="rocket02"){
       return "assets/image/eventsicon/onboarding.svg";
 
-
-
-
     }else if(eventIcon=="trendup01"){
-      return "assets/image/eventsicon/yearlyanniversary.svg";;
+      return "assets/image/eventsicon/yearlyanniversary.svg";
     }else if(eventIcon=="calendarcheck02"){
       return "assets/image/eventsicon/employeefarewell.svg";
     }
-    else if(eventIcon=="rocket02"){
-      return "assets/image/eventsicon/onboarding.svg";
+    else if(eventIcon=="award05"){
+      return "assets/image/eventsicon/employeeaward.svg";
     }
     return "assets/image/eventsicon/birthday.svg";
 
