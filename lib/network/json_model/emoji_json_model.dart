@@ -11,7 +11,7 @@ class AllEmojiToView {
   static List<EmojData> HostoryEmojiList = [];
   static List<CategoryEmoji> allgroupEmojiwithImage = [];
 
-
+  static List<EmojData> all30EmojiMap = [];
   static GetEmojis( ) async {
     EmojiJsonModel? emojiJsonModel;
     final jsondata =
@@ -30,7 +30,11 @@ class AllEmojiToView {
       allEmojiMap[emojiJsonModel.data![i].slug!] = emojiJsonModel.data![i];
       allEmojiList.add( emojiJsonModel.data![i]);
     }
+    for (int i = 0; i < 30; i++) {
 
+
+      all30EmojiMap.add( emojiJsonModel.data![i]);
+    }
 
     groupEmoji.forEach((key, value) {
       allgroupEmoji.add("1");

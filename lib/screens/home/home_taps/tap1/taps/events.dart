@@ -231,8 +231,8 @@ class Events extends GetView<HomeController> {
                                         borderRadius: BorderRadius.circular(10),
                                         color: HexColor("#F2F6F6"),
                                       ),
-                                      width: 48,
-                                      height: 48,
+                                      width: 65,
+                                      height: 60,
                                       child: Center(
                                           child: Column(
                                         children: [
@@ -258,7 +258,7 @@ class Events extends GetView<HomeController> {
                                     flex: 5,
                                     child: GetBuilder<HomeController>(
                                         builder: (logic) {
-                                      return ListView.builder(
+                                      return ListView.builder(physics: NeverScrollableScrollPhysics(),
                                           shrinkWrap: true,
                                           itemCount: logic
                                               .selectedEvents[
@@ -266,23 +266,6 @@ class Events extends GetView<HomeController> {
                                               ?.length,
                                           itemBuilder: (context, index) {
                                             String des = "";
-// List list = logic
-//     .getdayEvent(logic.selectedDay ??
-// DateTime.now())?[pos]
-//     ?.description
-//     ?.split(" ") ??
-// [];
-// // if(list.length>5){
-// //   for(int i=0;i<5;){
-// //     des=des+list[i];
-// //   }
-// //   }else{
-// des = logic
-//     .getdayEvent(logic.selectedDay ??
-// DateTime.now())?[pos]
-//     ?.description ??
-// "";
-// //   }
 
                                             if (logic.isFilter) {
                                               if (logic
@@ -372,8 +355,8 @@ class Events extends GetView<HomeController> {
                                     borderRadius: BorderRadius.circular(10),
                                     color: HexColor("#F2F6F6"),
                                   ),
-                                  width: 48,
-                                  height: 48,
+                                  width: 65,
+                                  height: 60,
                                   child: Center(
                                       child: Column(
                                     children: [
@@ -458,121 +441,7 @@ class Events extends GetView<HomeController> {
                                         };
                                       }).toList(),);
 
-
-
-//                                   return ListView.builder(
-//                                       shrinkWrap: true,
-//                                       itemCount: logic
-//                                           .selectedEvents[
-//                                               controller.daysDateList[pos]]
-//                                           ?.length,
-//                                       itemBuilder: (context, index) {
-//                                         String des = "";
-// // List list = logic
-// //     .getdayEvent(logic.selectedDay ??
-// // DateTime.now())?[pos]
-// //     ?.description
-// //     ?.split(" ") ??
-// // [];
-// // // if(list.length>5){
-// // //   for(int i=0;i<5;){
-// // //     des=des+list[i];
-// // //   }
-// // //   }else{
-// // des = logic
-// //     .getdayEvent(logic.selectedDay ??
-// // DateTime.now())?[pos]
-// //     ?.description ??
-// // "";
-// // //   }
-//
-//                                         if (logic.isFilter) {
-//                                           if (logic
-//                                                   .selectedEvents[
-//                                                       controller.daysDateList[
-//                                                           pos]]![index]
-//                                                   .eventType!
-//                                                   .id ==
-//                                               logic.event_type) {
-//                                             return DateEventItem(
-//                                               event: logic
-//                                                   .selectedEvents[
-//                                                       controller.daysDateList[
-//                                                           pos]]![index]
-//                                                   .description!,
-//                                               image: AppImage
-//                                                   .getimageEventsIconPath(
-//                                                       eventIcon: logic
-//                                                               .selectedEvents[
-//                                                                   controller
-//                                                                           .daysDateList[
-//                                                                       pos]]![
-//                                                                   index]
-//                                                               .eventType!
-//                                                               .icon!  )  ,
-//                                               name: logic
-//                                                       .selectedEvents[controller
-//                                                               .daysDateList[
-//                                                           pos]]![index]
-//                                                       .name ??
-//                                                   "",
-//                                               imageColor: logic
-//                                                   .selectedEvents[
-//                                                       controller.daysDateList[
-//                                                           pos]]![index]
-//                                                   .eventType!
-//                                                   .color!,
-//                                             );
-//                                           } else {
-//                                             return SizedBox();
-//                                           }
-//                                         }
-//                                         else {
-//                                           print(
-//                                               " logic.selectedEvents[controller.daysDateList[pos]]![index].eventType!.icon!   =>${ logic
-//                                                   .selectedEvents[
-//                                               controller.daysDateList[
-//                                               pos]]![index].eventType!.icon!}");
-//
-//
-//                                           print(
-//                                               " logic.selectedEvents[controller.daysDateList[pos]]![index].eventType!.icon!   =>${ AppImage.getimageEventsIconPath(
-//                                                   eventIcon: logic
-//                                                       .selectedEvents[controller
-//                                                       .daysDateList[
-//                                                   pos]]![index]
-//                                                       .eventType!
-//                                                       .icon! )}");
-//
-//                                           return DateEventItem(
-//                                             imageColor: logic
-//                                                 .selectedEvents[controller
-//                                                     .daysDateList[pos]]![index]
-//                                                 .eventType!
-//                                                 .color!,
-//                                             event: logic
-//                                                     .selectedEvents[
-//                                                         controller.daysDateList[
-//                                                             pos]]![index]
-//                                                     .description ??
-//                                                 "",
-//                                             image: AppImage.getimageEventsIconPath(
-//                                                 eventIcon: logic
-//                                                         .selectedEvents[controller
-//                                                                 .daysDateList[
-//                                                             pos]]![index]
-//                                                         .eventType!
-//                                                         .icon!) ,
-//                                             name: logic
-//                                                     .selectedEvents[
-//                                                         controller.daysDateList[
-//                                                             pos]]![index]
-//                                                     .name ??
-//                                                 "",
-//                                           );
-//                                         }
-//                                       });
-                                }),
+                }),
                               ),
                             ],
                           );
@@ -583,108 +452,3 @@ class Events extends GetView<HomeController> {
     );
   }
 }
-
-//
-// Row(
-// crossAxisAlignment: CrossAxisAlignment.start,
-// children: [
-// Expanded(
-// flex: 1,
-// child: Container(
-// decoration: BoxDecoration(
-// borderRadius: BorderRadius.circular(10),
-// color: Colors.grey.withOpacity(.3),
-// ),
-// width: 50,
-// height: 50,
-// child: Center(
-// child: Column(
-// children: [
-// Text(
-// "${DateFormat('dd').format(
-// controller.selectedDay)}",
-// maxLines: 3,
-// style: TextStyle(
-// fontSize: 10,
-// fontWeight: FontWeight.bold),
-// textAlign: TextAlign.center,
-// ),
-// Text(
-// "${DateFormat('MMMM').format(
-// controller.selectedDay ??
-// DateTime.now())}\n${DateFormat('yy')
-// .format(controller.selectedDay ??
-// DateTime.now())}",
-// maxLines: 3,
-// style: TextStyle(fontSize: 10),
-// textAlign: TextAlign.center,
-// ),
-// ],
-// )),
-// ),
-// ),
-// Expanded(
-// flex: 5,
-// child: GetBuilder<HomeController>(builder: (logic) {
-// return ListView.builder(
-// shrinkWrap: true,
-// itemCount: logic
-//     .getdayEvent(
-// logic.selectedDay)
-//     ?.length,
-// itemBuilder: (context, pos) {
-// String des = "";
-// List list = logic
-//     .getdayEvent(logic.selectedDay ??
-// DateTime.now())?[pos]
-//     ?.description
-//     ?.split(" ") ??
-// [];
-// // if(list.length>5){
-// //   for(int i=0;i<5;){
-// //     des=des+list[i];
-// //   }
-// //   }else{
-// des = logic
-//     .getdayEvent(logic.selectedDay ??
-// DateTime.now())?[pos]
-//     ?.description ??
-// "";
-// //   }
-//
-// if (logic.isFilter) {
-// if (logic
-//     .getdayEvent(logic.selectedDay)[pos]
-//     .eventType!
-//     .id ==
-// logic.event_type) {
-// return DateEventItem(
-// event: des,
-// image:
-// "https://tse4.mm.bing.net/th?id=OIP.HdETgqkYpSTZhRHQcDetIgHaFS&pid=Api&P=0",
-// name: logic
-//     .getdayEvent(logic.selectedDay ??
-// DateTime.now())[pos]
-//     .name ??
-// "",
-// );
-// } else {
-// return SizedBox();
-// }
-// } else {
-// return DateEventItem(
-// event: des,
-// image:
-// "https://tse4.mm.bing.net/th?id=OIP.HdETgqkYpSTZhRHQcDetIgHaFS&pid=Api&P=0",
-// name: logic
-//     .getdayEvent(logic.selectedDay ??
-// DateTime.now())[pos]
-//     .name ??
-// "",
-// );
-// }
-// });
-// }),
-// ),
-// ],
-// ),

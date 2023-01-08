@@ -8,6 +8,7 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 
@@ -64,8 +65,9 @@ class Tap1Tap1 extends StatelessWidget {
                                   ],
                                 ),
                                 Spacer(),
-                                Text(
-                                    "${logic.newsFeedsList[pos].publishedAt?.substring(0, 10)}"),
+                                Text(DateFormat.yMMMd("ar_SA").format(DateTime.parse(logic.newsFeedsList[pos].publishedAt!,),)
+                                  //  "${logic.newsFeedsList[pos].publishedAt?.substring(0, 10)}"
+                                    ,style: TextStyle(fontWeight: FontWeight.w400,fontSize: 12,color: HexColor("#98A2B3")), ),
 
 
                               ],
@@ -231,11 +233,20 @@ class Tap1Tap1 extends StatelessWidget {
                                     padding: const EdgeInsets.all(4.0),
                                     child: GestureDetector(
                                       onTap: () {
-                                        logic.botomshhetemojeindex = 0;
-                                        logic.EmojiBotomSheet(
-                                            context: context,
-                                            indexOfPostInList: pos,
-                                            postId: logic.newsFeedsList[pos].id!);
+                                        logic.my30EmojiBotomSheet(
+
+
+
+                                              context: context,
+                                              indexOfPostInList: pos,
+                                              postId: logic.newsFeedsList[pos].id!
+
+                                        );
+                                        // logic.botomshhetemojeindex = 0;
+                                        // logic.EmojiBotomSheet(
+                                        //     context: context,
+                                        //     indexOfPostInList: pos,
+                                        //     postId: logic.newsFeedsList[pos].id!);
                                       },
                                       child: SvgPicture.asset(
                                         "assets/image/addemojisvg.svg",
