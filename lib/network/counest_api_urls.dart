@@ -27,4 +27,5 @@ class APIApp {
   static const String eventTypesUrl =baseUrl+"event-types";
   static const String AlleventsUrl =baseUrl+"events";
   static const String eventsDetailsUrl =baseUrl+"events/";
+
 }

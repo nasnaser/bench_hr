@@ -1,3 +1,4 @@
+import 'package:bench_hr/screens/attendace/binding/attendace_binding.dart';
 import 'package:bench_hr/screens/auth/binding/login_binding.dart';
 import 'package:bench_hr/screens/auth/login_screen.dart';
 import 'package:bench_hr/screens/auth/login_verify_screen.dart';
@@ -59,6 +60,8 @@ class MyApp extends StatelessWidget {
         ),
         GetPage(
             name: "/Home", page: () => HomeScreen(), binding: HomeBinding()),
+
+
       ],
     );
   }
