@@ -97,20 +97,24 @@ class Events extends GetView<HomeController> {
                               scrollDirection: Axis.horizontal,
                               itemCount: logic.eventsDay?.data?.list?.length,
                               itemBuilder: (context, pos) {
-                                return EventsTodayItems(
-                                  title:
-                                      logic.eventsDay?.data?.list?[pos].name ??
-                                          "",
-                                  des: logic.eventsDay?.data?.list?[pos]
-                                          .description ??
-                                      "",
-                                  back: "assets/image/event/event1.png",
-                                  hxcolor: logic.eventsDay!.data!.list![pos]
-                                      .eventType!.color!,
-                                  likes: [],
-                                  pic: AppImage.getimageEventsIconPath(
-                                      eventIcon:
-                                          "${logic.eventsDay!.data!.list![pos].eventType!.icon!}"),
+                                return InkWell(onTap: (){
+                               logic.   geteventsDetails(contex: context,eventId: logic.eventsDay!.data!.list![pos].id.toString() );
+                                },
+                                  child: EventsTodayItems(
+                                    title:
+                                        logic.eventsDay?.data?.list?[pos].name ??
+                                            "",
+                                    des: logic.eventsDay?.data?.list?[pos]
+                                            .description ??
+                                        "",
+                                    back: "assets/image/event/event1.png",
+                                    hxcolor: logic.eventsDay!.data!.list![pos]
+                                        .eventType!.color!,
+                                    likes: [],
+                                    pic: AppImage.getimageEventsIconPath(
+                                        eventIcon:
+                                            "${logic.eventsDay!.data!.list![pos].eventType!.icon!}"),
+                                  ),
                                 );
                               });
                 }),
@@ -275,18 +279,68 @@ class Events extends GetView<HomeController> {
                                                       .eventType!
                                                       .id ==
                                                   logic.event_type) {
-                                                return DateEventItem(
-                                                  imageColor: logic
+                                                return InkWell(onTap: (){
+                                                  logic.   geteventsDetails(contex: context,eventId: logic
                                                       .selectedEvents[controller
-                                                              .daysDateList[
-                                                          pos]]![index]
+                                                      .daysDateList[
+                                                  pos]]![index].id.toString() );
+
+                                                },
+                                                  child: DateEventItem(
+                                                    imageColor: logic
+                                                        .selectedEvents[controller
+                                                                .daysDateList[
+                                                            pos]]![index]
+                                                        .eventType!
+                                                        .color!,
+                                                    event: logic
+                                                        .selectedEvents[controller
+                                                                .daysDateList[
+                                                            pos]]![index]
+                                                        .description!,
+                                                    image: AppImage
+                                                        .getimageEventsIconPath(
+                                                            eventIcon: logic
+                                                                    .selectedEvents[
+                                                                        controller
+                                                                                .daysDateList[
+                                                                            pos]]![
+                                                                        index]
+                                                                    .eventType!
+                                                                    .icon! ) ,
+                                                    name: logic
+                                                            .selectedEvents[controller
+                                                                    .daysDateList[
+                                                                pos]]![index]
+                                                            .name ??
+                                                        "",
+                                                  ),
+                                                );
+                                              } else {
+                                                return SizedBox();
+                                              }
+                                            } else {
+                                              return InkWell(onTap: (){
+                                                logic.   geteventsDetails(contex: context,eventId:   logic
+                                                    .selectedEvents[
+                                                controller.daysDateList[
+                                                pos]]![index]
+                                                    .id.toString() );
+
+                                              },
+                                                child: DateEventItem(
+                                                  imageColor: logic
+                                                      .selectedEvents[
+                                                          controller.daysDateList[
+                                                              pos]]![index]
                                                       .eventType!
                                                       .color!,
                                                   event: logic
-                                                      .selectedEvents[controller
-                                                              .daysDateList[
-                                                          pos]]![index]
-                                                      .description!,
+                                                          .selectedEvents[controller
+                                                                  .daysDateList[
+                                                              pos]]![index]
+                                                          .description ??
+                                                      "",
                                                   image: AppImage
                                                       .getimageEventsIconPath(
                                                           eventIcon: logic
@@ -296,47 +350,14 @@ class Events extends GetView<HomeController> {
                                                                           pos]]![
                                                                       index]
                                                                   .eventType!
-                                                                  .icon! ) ,
+                                                                  .icon! )  ,
                                                   name: logic
                                                           .selectedEvents[controller
                                                                   .daysDateList[
                                                               pos]]![index]
                                                           .name ??
                                                       "",
-                                                );
-                                              } else {
-                                                return SizedBox();
-                                              }
-                                            } else {
-                                              return DateEventItem(
-                                                imageColor: logic
-                                                    .selectedEvents[
-                                                        controller.daysDateList[
-                                                            pos]]![index]
-                                                    .eventType!
-                                                    .color!,
-                                                event: logic
-                                                        .selectedEvents[controller
-                                                                .daysDateList[
-                                                            pos]]![index]
-                                                        .description ??
-                                                    "",
-                                                image: AppImage
-                                                    .getimageEventsIconPath(
-                                                        eventIcon: logic
-                                                                .selectedEvents[
-                                                                    controller
-                                                                            .daysDateList[
-                                                                        pos]]![
-                                                                    index]
-                                                                .eventType!
-                                                                .icon! )  ,
-                                                name: logic
-                                                        .selectedEvents[controller
-                                                                .daysDateList[
-                                                            pos]]![index]
-                                                        .name ??
-                                                    "",
+                                                ),
                                               );
                                             }
                                           });
@@ -393,20 +414,26 @@ class Events extends GetView<HomeController> {
                                               .eventType!
                                               .id ==
                                               logic.event_type) {
-                                            return DateEventItem(
-                                              event: e
-                                                  .description!,
-                                              image: AppImage
-                                                  .getimageEventsIconPath(
-                                                  eventIcon:e
-                                                      .eventType!
-                                                      .icon!  )  ,
-                                              name: e
-                                                  .name ??
-                                                  "",
-                                              imageColor: e
-                                                  .eventType!
-                                                  .color!,
+                                            return InkWell(onTap: (){
+                                              logic.   geteventsDetails(contex: context,eventId:  e
+                                                  .id.toString() );
+
+                                            },
+                                              child: DateEventItem(
+                                                event: e
+                                                    .description!,
+                                                image: AppImage
+                                                    .getimageEventsIconPath(
+                                                    eventIcon:e
+                                                        .eventType!
+                                                        .icon!  )  ,
+                                                name: e
+                                                    .name ??
+                                                    "",
+                                                imageColor: e
+                                                    .eventType!
+                                                    .color!,
+                                              ),
                                             );
                                           } else {
                                             return SizedBox();
@@ -423,20 +450,26 @@ class Events extends GetView<HomeController> {
                                           //             .eventType!
                                           //             .icon! )}");
 
-                                          return DateEventItem(
-                                            imageColor: e
-                                                .eventType!
-                                                .color!,
-                                            event: e
-                                                .description ??
-                                                "",
-                                            image: AppImage.getimageEventsIconPath(
-                                                eventIcon: e
-                                                    .eventType!
-                                                    .icon!) ,
-                                            name: e
-                                                .name ??
-                                                "",
+                                          return InkWell(onTap: (){
+                                            logic.   geteventsDetails(contex: context,eventId:  e
+                                                .id.toString() );
+
+                                          },
+                                            child: DateEventItem(
+                                              imageColor: e
+                                                  .eventType!
+                                                  .color!,
+                                              event: e
+                                                  .description ??
+                                                  "",
+                                              image: AppImage.getimageEventsIconPath(
+                                                  eventIcon: e
+                                                      .eventType!
+                                                      .icon!) ,
+                                              name: e
+                                                  .name ??
+                                                  "",
+                                            ),
                                           );
                                         };
                                       }).toList(),);

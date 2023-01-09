@@ -26,4 +26,5 @@ class APIApp {
   static const String personalUrl =employeesUrl+"/personal?uuid=";
   static const String eventTypesUrl =baseUrl+"event-types";
   static const String AlleventsUrl =baseUrl+"events";
+  static const String eventsDetailsUrl =baseUrl+"events/";
 }
