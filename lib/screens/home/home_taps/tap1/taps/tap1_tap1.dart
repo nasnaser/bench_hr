@@ -193,7 +193,7 @@ class Tap1Tap1 extends StatelessWidget {
                             padding: const EdgeInsets.all(15.0),
                             child: Text("${logic.newsFeedsList[pos].title}",
                                 style: TextStyle(
-                                    fontSize: 15, fontWeight: FontWeight.bold)),
+                                    fontSize: 15, fontWeight: FontWeight.w500)),
                           ),
                           Padding(
                             padding: const EdgeInsets.only(

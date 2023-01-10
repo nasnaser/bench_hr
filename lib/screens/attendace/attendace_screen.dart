@@ -89,7 +89,7 @@ class Attendance extends GetView<AttendaceController> {
                                 height: 50,
                                 width: 50,
                                 child: GestureDetector(onTap: (){
-                                  controller.searchBotomSheet(context: context);
+                                  controller.getDepartments(context: context);
                                 },
                                     child: Padding(
                                   padding: const EdgeInsets.all(10.0),

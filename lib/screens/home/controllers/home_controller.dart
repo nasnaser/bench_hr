@@ -35,6 +35,7 @@ import '../../../network/apis/events_api.dart';
 import '../../../network/json_model/events_details.dart';
 import '../../../utility/conest_image.dart';
 import '../../attendace/attendace_screen.dart';
+import '../../profile/profile_screen.dart';
 import '../../shared_widget/custom_button.dart';
 
 class HomeController extends GetxController
@@ -69,6 +70,7 @@ class HomeController extends GetxController
   List<Widget> screens = [
     Tap1Screen(),
     Attendance(),
+    ProfileScreen(),
     Tap1Screen(),
     Tap1Screen(),
   ];
